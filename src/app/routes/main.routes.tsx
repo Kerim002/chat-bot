@@ -1,11 +1,9 @@
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { AppLayout } from "../layouts/app-layout";
-import { Chat } from "@/pages/chat/ui/chat";
+import { Chat } from "@/pages/chat";
 import TestPage from "@/pages/test/test-page";
+import { Suspense } from "react";
+import { authRoutes } from "./auth.routes";
 const mainRoutes = createBrowserRouter([
   {
     path: "/",
@@ -13,10 +11,15 @@ const mainRoutes = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Chat />,
+        element: (
+          <Suspense>
+            <Chat />
+          </Suspense>
+        ),
       },
     ],
   },
+  ...authRoutes,
   {
     path: "/test",
     element: <TestPage />,

@@ -1,10 +1,8 @@
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -13,8 +11,8 @@ import {
 } from "@/shared/ui/sidebar";
 import React from "react";
 import { TopSidebar } from "./top-sidebar";
-import { Edit, Home } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Edit } from "lucide-react";
+import { SidebarHistory } from "./sidebar-history";
 
 export const AppSidebar = ({
   ...props
@@ -43,25 +41,7 @@ export const AppSidebar = ({
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>History</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu className="">
-              <SidebarMenuItem>
-                <SidebarMenuButton className="" asChild>
-                  <Link to="/">
-                    <span>Createing a responsive sidebar...</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton className="" asChild>
-                  <Link to="/">
-                    <span> That question can be interpreted</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
+          <SidebarHistory />
         </SidebarGroup>
       </SidebarContent>
       {/* <SidebarFooter></SidebarFooter> */}
