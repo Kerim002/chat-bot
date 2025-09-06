@@ -2,12 +2,13 @@ import { messagesApi } from "@/entities/messages";
 import { ChatInput } from "@/features/chat/ui/chat-input";
 import { MessageItem } from "@/features/chat/ui/message";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 
 export const ChatMain = () => {
-  const [inputValue, setInputValue] = useState("");
+  const {id} = useParams<{id:string}>()
   const chatWindowRef = useRef<HTMLDivElement>(null);
-  const { data: messages } = useQuery(messagesApi.messageQueries.messages(99));
+  const { data: messages } = useQuery(messagesApi.messageQueries.messages(Number(id)));
   useEffect(() => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTo({
@@ -24,11 +25,9 @@ export const ChatMain = () => {
         messages?.length ? "h-[calc(100dvh-64px)]" : "h-[calc(100dvh-304px)]"
       }  ease-out duration-75 flex flex-col  font-inter`}
     >
-      {/* Main Application Container */}
       <div
         className={`flex   max-w-5xl m-auto flex-col flex-grow w-full justify-center   mx-auto px-4`}
       >
-        {/* Header/Title Section */}
         {!messages?.length ? (
           <header className="flex-none text-center mb-8">
             <h1 className="text-4xl font-semibold text-gray-500">
@@ -45,12 +44,8 @@ export const ChatMain = () => {
           </main>
         ) : null}
 
-        {/* Input Section */}
         <ChatInput
-          inputValue={inputValue}
           isMessageExist={messages?.length ? true : false}
-          setInputValue={setInputValue}
-          handleSendMessage={() => {}}
         />
       </div>
     </div>

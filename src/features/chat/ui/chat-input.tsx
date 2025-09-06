@@ -1,20 +1,17 @@
-import { useEffect, useRef, type Dispatch, type SetStateAction } from "react";
+import { useEffect, useRef, useState,} from "react";
+import { usePromptMutation } from "../api/use-prompt-mutation";
+import { useParams } from "react-router-dom";
 
 type Props = {
   isMessageExist: boolean;
-  inputValue: string;
-  setInputValue: Dispatch<SetStateAction<string>>;
-  handleSendMessage: () => void;
 };
 
 export const ChatInput = ({
-  inputValue,
   isMessageExist,
-  setInputValue,
-  handleSendMessage,
 }: Props) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-
+ const [inputValue, setInputValue] = useState("");
+ const {id:roomId} = useParams<{id:string}>()
   // Auto-resize the textarea
   useEffect(() => {
     if (textareaRef.current) {
@@ -30,7 +27,6 @@ export const ChatInput = ({
     }
   }, [inputValue]);
 
-  // Focus + move cursor to end
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.focus();
@@ -38,6 +34,12 @@ export const ChatInput = ({
       textareaRef.current.selectionEnd = textareaRef.current.value.length;
     }
   }, [inputValue]);
+const {isPending, promptMutation} = usePromptMutation()
+  const handleSendMessage = () => {
+    if(!isPending){
+      promptMutation({userPrompt:inputValue, roomId:roomId ? Number(roomId) : undefined}, {onSuccess: () => setInputValue("")})
+    }
+  }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
