@@ -17,61 +17,12 @@ export const ChatMain = () => {
     }
   }, [messages]);
 
-  // const handleSendMessage = () => {
-  //   if (inputValue.trim() !== "") {
-  //     const newUserMessage: Message = {
-  //       id: messages.length + 1,
-  //       text: inputValue.trim(),
-  //       sender: "user",
-  //       timestamp: new Date().toLocaleTimeString("en-US", {
-  //         hour: "2-digit",
-  //         minute: "2-digit",
-  //       }),
-  //     };
-  //     setInputValue("");
-
-  //     const fullResponseText =
-  //       "I received your message! This is a simple placeholder response to show the chat functionality.";
-
-  //     const newGeminiMessageId = messages.length + 2;
-  //     setMessages((prevMessages) => [
-  //       ...prevMessages,
-  //       {
-  //         id: newGeminiMessageId,
-  //         text: "",
-  //         sender: "server",
-  //         timestamp: new Date().toLocaleTimeString("en-US", {
-  //           hour: "2-digit",
-  //           minute: "2-digit",
-  //         }),
-  //       },
-  //     ]);
-
-  //     let i = 0;
-  //     const interval = setInterval(() => {
-  //       if (i < fullResponseText.length) {
-  //         setMessages((prevMessages) => {
-  //           const updatedMessages = prevMessages.map((msg) =>
-  //             msg.id === newGeminiMessageId
-  //               ? { ...msg, text: msg.text + fullResponseText.charAt(i) }
-  //               : msg
-  //           );
-  //           return updatedMessages;
-  //         });
-  //         i++;
-  //       } else {
-  //         clearInterval(interval);
-  //       }
-  //     }, 50);
-  //   }
-  // };
-
   return (
     <div
       ref={chatWindowRef}
       className={` w-full  overflow-auto transition-all ${
         messages?.length ? "h-[calc(100dvh-64px)]" : "h-[calc(100dvh-304px)]"
-      }  ease-out duration-300 flex flex-col  font-inter`}
+      }  ease-out duration-75 flex flex-col  font-inter`}
     >
       {/* Main Application Container */}
       <div

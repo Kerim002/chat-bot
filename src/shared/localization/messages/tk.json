@@ -1,0 +1,14 @@
+{
+    "hello":"Salam",
+    "new_chat":"Täze söhbet",
+    "login":"Içeri gir",
+    "sign_up":"Agza bol",
+    "login_title": "Hasabyňa gir",
+  "login_subtitle": "Hasabyňa girmek üçin email adresiňi giriz",
+  "username": "Ulanyjy ady",
+  "password": "Açar sözi",
+  "forgot_password": "Açar sözüňi unuttuňmy?",
+  "no_account": "Hasabyň ýokmy? Ýazyl",
+  "create_account": "Hasap döret",
+  "fill_all_inputs": "Ýazylmak üçin ähli meýdançalary doldur"
+}

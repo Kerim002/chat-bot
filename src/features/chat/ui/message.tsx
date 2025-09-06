@@ -23,7 +23,7 @@ export const MessageItem = ({ id, isUser, prompt, createdAt }: Props) => {
               : "bg-gray-100 rounded-tl-xs"
           }`}
         >
-          <p>{prompt}</p>
+          {isUser ? <p>{prompt}</p> : <p dangerouslySetInnerHTML={{ __html: prompt }}></p>}
         </div>
         <div
           className={`text-xs text-zinc-400 mt-1 ${
