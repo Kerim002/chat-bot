@@ -13,6 +13,7 @@ import React from "react";
 import { TopSidebar } from "./top-sidebar";
 import { Edit } from "lucide-react";
 import { SidebarHistory } from "./sidebar-history";
+import { Link } from "react-router-dom";
 
 export const AppSidebar = ({
   ...props
@@ -27,6 +28,7 @@ export const AppSidebar = ({
           <SidebarGroupContent>
             <SidebarMenu className="">
               <SidebarMenuItem>
+                <Link to={"/"}>
                 <SidebarMenuButton
                   className="main-bg text-white hover:text-gray-50 active:text-white"
                   asChild
@@ -36,6 +38,7 @@ export const AppSidebar = ({
                     <span>New chat</span>
                   </div>
                 </SidebarMenuButton>
+                </Link>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

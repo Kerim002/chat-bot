@@ -25,7 +25,7 @@ export const SidebarHistory = () => {
             </SidebarMenuButton>
           </SidebarMenuItem> */}
           {rooms?.map((room) => (
-            <SidebarMenuItem>
+            <SidebarMenuItem key={room.id}>
               <SidebarMenuButton className="" asChild>
                 <Link to={`/room/${room.id}`}>
                   <span>{room.title}</span>

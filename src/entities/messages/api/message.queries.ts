@@ -5,7 +5,7 @@ export const messageQueries = {
   all: () => ["message"],
   messages: (id: number) =>
     queryOptions({
-      queryKey: [...messageQueries.all(), "list"],
+      queryKey: [...messageQueries.all(), "list", id],
       queryFn: () => getMessages(id),
       placeholderData: keepPreviousData,
     }),
