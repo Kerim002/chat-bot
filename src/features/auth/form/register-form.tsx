@@ -18,7 +18,9 @@ import { PasswordFormField } from "./password-form-field";
 import type { Register } from "@/entities/auth/types";
 import { Link } from "react-router-dom";
 import { useRegisterMutation } from "../api/use-register-mutation";
+import { useTranslation } from "react-i18next";
 export const RegisterForm = () => {
+  const { t } = useTranslation();
   const { isPending, registerMutation } = useRegisterMutation();
   const form = useForm<Register>({ resolver: zodResolver(RegisterSchema) });
   const submit: SubmitHandler<Register> = (value) => {
@@ -29,8 +31,8 @@ export const RegisterForm = () => {
       <div className={cn("flex flex-col gap-6")}>
         <Card>
           <CardHeader>
-            <CardTitle>Create account</CardTitle>
-            <CardDescription>Feel all input for register</CardDescription>
+            <CardTitle>{t("create_account")}</CardTitle>
+            <CardDescription>{t("fill_all_inputs")}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={form.handleSubmit(submit)}>
@@ -39,14 +41,14 @@ export const RegisterForm = () => {
                 <PasswordFormField form={form} name="password" />
                 <div className="flex flex-col gap-3">
                   <Button disabled={isPending} type="submit" className="w-full">
-                    Register
+                    {t("create_account")}
                   </Button>
                 </div>
               </div>
               <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?{" "}
+                {t("already_have_account")}
                 <Link to="/sign-in" className="underline underline-offset-4">
-                  Sign in
+                  {t("login")}
                 </Link>
               </div>
             </form>

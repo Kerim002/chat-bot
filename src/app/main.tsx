@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import "./style/index.css";
 import AppRouter from "./routes/main.routes";
 import { MainProvider } from "./layouts/main-provider";
+import "../shared/localization/i18n";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <MainProvider>

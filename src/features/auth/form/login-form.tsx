@@ -19,9 +19,11 @@ import { SolutionFormField } from "./solution-form-field";
 import { ImageFormField } from "./image-form-field";
 import { Link } from "react-router-dom";
 import { useLoginMutation } from "../api/use-login-mutation";
+import { useTranslation } from "react-i18next";
 export const LoginForm = () => {
   const form = useForm<Login>({ resolver: zodResolver(LoginSchema) });
   const { isPending, loginMutation } = useLoginMutation();
+  const { t } = useTranslation();
   const submit: SubmitHandler<Login> = (value) => {
     loginMutation(value);
   };
@@ -30,10 +32,8 @@ export const LoginForm = () => {
       <div className={cn("flex flex-col gap-6")}>
         <Card>
           <CardHeader>
-            <CardTitle>Login to your account</CardTitle>
-            <CardDescription>
-              Enter your email below to login to your account
-            </CardDescription>
+            <CardTitle>{t("login_title")}</CardTitle>
+            <CardDescription>{t("login_subtitle")}</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={form.handleSubmit(submit)}>
@@ -44,14 +44,14 @@ export const LoginForm = () => {
                 <SolutionFormField form={form} name="captchaSolution" />
                 <div className="flex flex-col gap-3">
                   <Button disabled={isPending} type="submit" className="w-full">
-                    Login
+                    {t("login")}
                   </Button>
                 </div>
               </div>
               <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?{" "}
+                {t("no_account")}
                 <Link to="/sign-up" className="underline underline-offset-4">
-                  Sign up
+                  {t("create_account")}
                 </Link>
               </div>
             </form>
