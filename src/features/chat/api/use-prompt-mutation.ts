@@ -10,11 +10,19 @@ export const usePromptMutation = () => {
     mutationFn: messagesApi.postMessage,
     onSuccess: (data, { roomId, userPrompt }) => {
       if (data.chatroomId !== roomId) {
-         queryClient.setQueryData(roomApi.roomQueries.rooms().queryKey, (oldData) => {
-            if(!oldData) return [];
-            const newRoom = oldData.concat({id:Date.now(), title:data.chatroomTitle, userId:data.userId, createdAt: new Date(Date.now()).toDateString()})
-            return newRoom
-         })
+        queryClient.setQueryData(
+          roomApi.roomQueries.rooms().queryKey,
+          (oldData) => {
+            if (!oldData) return [];
+            const newRoom = oldData.concat({
+              id: Date.now(),
+              title: data.chatroomTitle,
+              userId: data.userId,
+              createdAt: new Date(Date.now()).toDateString(),
+            });
+            return newRoom;
+          }
+        );
         navigate(`/room/${data.chatroomId}`);
       } else {
         queryClient.setQueryData(
@@ -24,14 +32,14 @@ export const usePromptMutation = () => {
             const newData = oldData.concat([
               {
                 id: Date.now(),
-                createdAt: new Date(Date.now()).toDateString(),
+                createdAt: new Date().toISOString(),
                 prompt: userPrompt,
                 isUser: true,
                 roomId: data.chatroomId,
               },
               {
-                id: Date.now(),
-                createdAt: new Date(Date.now()).toDateString(),
+                id: Date.now() + 1,
+                createdAt: new Date().toISOString(),
                 prompt: data.generatedResponse,
                 isUser: false,
                 roomId: data.chatroomId,

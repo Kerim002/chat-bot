@@ -1,4 +1,4 @@
-import { LoginPage, RegisterPage } from "@/pages/auth";
+import { LoginPage } from "@/pages/auth";
 import { Suspense } from "react";
 import { type RouteObject } from "react-router-dom";
 
@@ -11,12 +11,12 @@ export const authRoutes: RouteObject[] = [
       </Suspense>
     ),
   },
-  {
-    path: "/sign-up",
-    element: (
-      <Suspense>
-        <RegisterPage />
-      </Suspense>
-    ),
-  },
+  // {
+  //   path: "/sign-up",
+  //   element: (
+  //     <Suspense>
+  //       <RegisterPage />
+  //     </Suspense>
+  //   ),
+  // },
 ];

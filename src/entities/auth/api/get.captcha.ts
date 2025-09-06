@@ -19,7 +19,6 @@ export const getCaptcha = async () => {
   }
 
   const captchaId = response.headers.get("x-captcha-id");
-  console.log("[v0] Captcha ID from API:", captchaId);
 
   if (!captchaId) {
     throw new Error("captchaNotFound");
@@ -27,8 +26,6 @@ export const getCaptcha = async () => {
 
   const imageBlob = await response.blob();
   const imageUrl = URL.createObjectURL(imageBlob);
-
-  console.log("[v0] Captcha loaded successfully with ID:", captchaId);
 
   return { imageUrl, captchaId };
 };

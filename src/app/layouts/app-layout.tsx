@@ -1,6 +1,7 @@
 import { SidebarProvider } from "@/shared/ui/sidebar";
 import { AppNavbar } from "@/widget/navbar/app-navbar";
 import { AppSidebar } from "@/widget/sidebar/app-sidebar";
+
 import { Outlet } from "react-router-dom";
 
 export const AppLayout = () => {

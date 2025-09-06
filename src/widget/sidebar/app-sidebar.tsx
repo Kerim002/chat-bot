@@ -14,10 +14,12 @@ import { TopSidebar } from "./top-sidebar";
 import { Edit } from "lucide-react";
 import { SidebarHistory } from "./sidebar-history";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const AppSidebar = ({
   ...props
 }: React.ComponentProps<typeof Sidebar>) => {
+  const { t } = useTranslation();
   return (
     <Sidebar className="" collapsible="icon" {...props}>
       <SidebarHeader className="bg-white h-20">
@@ -29,15 +31,15 @@ export const AppSidebar = ({
             <SidebarMenu className="">
               <SidebarMenuItem>
                 <Link to={"/"}>
-                <SidebarMenuButton
-                  className="main-bg text-white hover:text-gray-50 active:text-white"
-                  asChild
-                >
-                  <div>
-                    <Edit className="size-5" />
-                    <span>New chat</span>
-                  </div>
-                </SidebarMenuButton>
+                  <SidebarMenuButton
+                    className="main-bg text-white hover:text-gray-50 active:text-white"
+                    asChild
+                  >
+                    <div>
+                      <Edit className="size-5" />
+                      <span>{t("new_chat")}</span>
+                    </div>
+                  </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
             </SidebarMenu>

@@ -3,17 +3,21 @@ import { ChatInput } from "@/features/chat/ui/chat-input";
 import { MessageItem } from "@/features/chat/ui/message";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
 export const ChatMain = () => {
-  const {id} = useParams<{id:string}>()
+  const { id } = useParams<{ id: string }>();
   const chatWindowRef = useRef<HTMLDivElement>(null);
-  const { data: messages } = useQuery(messagesApi.messageQueries.messages(Number(id)));
+  const { data: messages } = useQuery(
+    messagesApi.messageQueries.messages(Number(id))
+  );
+  const { t } = useTranslation();
   useEffect(() => {
     if (chatWindowRef.current) {
       chatWindowRef.current.scrollTo({
         top: chatWindowRef.current.scrollHeight,
-        behavior: "smooth",
+        behavior: "instant",
       });
     }
   }, [messages]);
@@ -31,22 +35,29 @@ export const ChatMain = () => {
         {!messages?.length ? (
           <header className="flex-none text-center mb-8">
             <h1 className="text-4xl font-semibold text-gray-500">
-              Hello, how can I help you today?
+              {t("home_title")}
             </h1>
           </header>
         ) : null}
 
         {messages?.length ? (
           <main className="flex-grow overflow-y-auto transition-all ease-in duration-300 scrollbar-hide mb-4 space-y-4 md:p-4 p-0 rounded-lg">
-            {messages.map((message) => (
-              <MessageItem key={message.id} {...message} />
-            ))}
+            {messages.map((message, idx) => {
+              const isLast = idx === messages.length - 1 && !message.isUser;
+              const createdAtTime = new Date(message.createdAt).getTime();
+              const isRecent = Date.now() - createdAtTime <= 10_000;
+              return (
+                <MessageItem
+                  key={message.id}
+                  {...message}
+                  isStreaming={isLast && isRecent}
+                />
+              );
+            })}
           </main>
         ) : null}
 
-        <ChatInput
-          isMessageExist={messages?.length ? true : false}
-        />
+        <ChatInput isMessageExist={messages?.length ? true : false} />
       </div>
     </div>
   );

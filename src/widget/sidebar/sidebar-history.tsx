@@ -7,13 +7,15 @@ import {
   SidebarMenuItem,
 } from "@/shared/ui/sidebar";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 export const SidebarHistory = () => {
   const { data: rooms } = useQuery(roomApi.roomQueries.rooms());
+  const { t } = useTranslation();
   return (
     <>
-      <SidebarGroupLabel>History</SidebarGroupLabel>
+      <SidebarGroupLabel>{t("history")}</SidebarGroupLabel>
       <SidebarGroupContent>
         <SidebarMenu className="">
           {/* 

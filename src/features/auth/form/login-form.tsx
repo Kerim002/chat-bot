@@ -17,7 +17,6 @@ import { NameFormField } from "./name-form-field";
 import { PasswordFormField } from "./password-form-field";
 import { SolutionFormField } from "./solution-form-field";
 import { ImageFormField } from "./image-form-field";
-import { Link } from "react-router-dom";
 import { useLoginMutation } from "../api/use-login-mutation";
 import { useTranslation } from "react-i18next";
 export const LoginForm = () => {
@@ -48,12 +47,12 @@ export const LoginForm = () => {
                   </Button>
                 </div>
               </div>
-              <div className="mt-4 text-center text-sm">
+              {/* <div className="mt-4 text-center text-sm">
                 {t("no_account")}
                 <Link to="/sign-up" className="underline underline-offset-4">
                   {t("create_account")}
                 </Link>
-              </div>
+              </div> */}
             </form>
           </CardContent>
         </Card>

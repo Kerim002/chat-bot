@@ -1,5 +1,6 @@
 import { getCookie, setCookie } from "../lib/cookies";
 import { API_VERSION, BASE_URL } from "../config";
+import { AUTH_ENDPOINT } from "../constants/endpoints";
 
 class ApiError extends Error {
   public response: Response;
@@ -41,17 +42,16 @@ const cleanParams = (
 const refreshAccessToken = async (): Promise<boolean> => {
   const refreshToken = getCookie("refresh_token");
 
-  const res = await fetch(
-    `${BASE_URL}/user-management/api/${API_VERSION}/users/refresh`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-        Authorization: `Bearer ${refreshToken}`,
-      },
-    }
-  );
+  const res = await fetch(`${BASE_URL}${AUTH_ENDPOINT}/refresh`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      refresh_token: refreshToken,
+    }),
+  });
 
   if (res.ok) {
     const data = await res.json();
@@ -111,7 +111,10 @@ export const jsonApiInstance = async <T>(
     headers,
   });
 
-  if (result.status === 401 && init?.retry !== false) {
+  if (
+    (result.status === 401 && init?.retry !== false) ||
+    result.status === 403
+  ) {
     const refreshed = await refreshAccessToken();
     if (refreshed) {
       return jsonApiInstance<T>(url, { ...init, retry: false });

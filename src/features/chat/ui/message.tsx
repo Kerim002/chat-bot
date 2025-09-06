@@ -1,8 +1,31 @@
 import type { Message } from "@/entities/messages/types";
+import { useEffect, useState } from "react";
 
-type Props = Message;
+type Props = Message & { isStreaming: boolean };
 
-export const MessageItem = ({ id, isUser, prompt, createdAt }: Props) => {
+export const MessageItem = ({
+  id,
+  isUser,
+  prompt,
+  createdAt,
+  isStreaming,
+}: Props) => {
+  const [displayedText, setDisplayedText] = useState(isStreaming ? "" : prompt);
+  useEffect(() => {
+    if (!isStreaming) return;
+
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < prompt.length - 1) {
+        setDisplayedText((prev) => prev + prompt[i]);
+        i++;
+      } else {
+        clearInterval(interval);
+      }
+    }, 30); // typing speed
+
+    return () => clearInterval(interval);
+  }, [isStreaming, prompt]);
   return (
     <div
       key={id}
@@ -23,16 +46,25 @@ export const MessageItem = ({ id, isUser, prompt, createdAt }: Props) => {
               : "bg-gray-100 rounded-tl-xs"
           }`}
         >
-          {isUser ? <p>{prompt}</p> : <p dangerouslySetInnerHTML={{ __html: prompt }}></p>}
+          {isUser ? (
+            <p>{prompt}</p>
+          ) : (
+            <p dangerouslySetInnerHTML={{ __html: displayedText }} />
+          )}
         </div>
         <div
           className={`text-xs text-zinc-400 mt-1 ${
             isUser ? "text-right" : "text-left"
           }`}
         >
-          {createdAt}
+          {formatTime(createdAt)}
         </div>
       </div>
     </div>
   );
+};
+
+const formatTime = (iso: string) => {
+  const date = new Date(iso);
+  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 };
