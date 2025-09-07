@@ -1,8 +1,10 @@
 import { roomApi } from "@/entities/room";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 export const useDeleteRoomMutation = () => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const { mutate: deleteRoomMutation, isPending } = useMutation({
     mutationFn: roomApi.deleteRoom,
@@ -18,10 +20,10 @@ export const useDeleteRoomMutation = () => {
           return newData;
         }
       );
-      toast.success("Successfully Room Deleted");
+      toast.success(t("room_deleted"));
     },
     onError: () => {
-      toast.error("Unsuccessfully Room Deleted");
+      toast.error(t("room_deleted_unsuccess"));
     },
   });
   return { deleteRoomMutation, isPending };

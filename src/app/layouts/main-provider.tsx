@@ -7,7 +7,7 @@ type Props = {
 export const MainProvider = ({ children }: Props) => {
   const queryClient = new QueryClient({
     defaultOptions: {
-      queries: { gcTime: 1000 * 60 * 3, staleTime: 1000 * 60 * 4 },
+      queries: { gcTime: 1000 * 60 * 3, staleTime: 1000 * 60 * 4, retry: 3 },
     },
   });
   return (

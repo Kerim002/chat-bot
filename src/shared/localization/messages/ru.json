@@ -20,5 +20,8 @@
   "ask_question": "Задать вопрос...",
   "delete":"Удалить",
   "cuncel":"Отменить",
-  "do-you-really-delete-this-chat":"Bu söhbetdeşligi hakykatdanam pozýarsyňyzmy?"
+  "do-you-really-delete-this-chat":"Bu söhbetdeşligi hakykatdanam pozýarsyňyzmy?",
+  "room_deleted":"Комната успешно удалена.",
+  "room_deleted_unsuccess":"Не удалось удалить комнату.",
+  "logout":"Выйти"
 }
