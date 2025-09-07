@@ -1,23 +1,21 @@
 import { roomApi } from "@/entities/room";
-import { Button } from "@/shared/ui/button";
-import { Popover, PopoverContent, PopoverTrigger } from "@/shared/ui/popover";
+import { DeleteRoomPopover } from "@/features";
 import {
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
 } from "@/shared/ui/sidebar";
 import { useQuery } from "@tanstack/react-query";
-import { EllipsisVertical, MessageSquare, Trash } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 export const SidebarHistory = () => {
   const { data: rooms } = useQuery(roomApi.roomQueries.rooms());
   const { t } = useTranslation();
-  const { open } = useSidebar();
+
   return (
     <>
       <SidebarGroupLabel>{t("history")}</SidebarGroupLabel>
@@ -34,25 +32,7 @@ export const SidebarHistory = () => {
                   <span>{room.title}</span>
                 </Link>
               </SidebarMenuButton>
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button className={`${open ? "" : "hidden"}`} variant="ghost">
-                    <EllipsisVertical />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent
-                  side="bottom"
-                  align="start"
-                  className="sm:align-end w-fit align-center p-1"
-                >
-                  <div className="">
-                    <Button variant="ghost">
-                      <Trash />
-                      {t("delete")}
-                    </Button>
-                  </div>
-                </PopoverContent>
-              </Popover>
+              <DeleteRoomPopover id={room.id} />
             </SidebarMenuItem>
           ))}
         </SidebarMenu>

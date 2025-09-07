@@ -22,7 +22,7 @@ export const AppSidebar = ({
   const { t } = useTranslation();
   return (
     <Sidebar className="bg-sidebar" collapsible="icon" {...props}>
-      <SidebarHeader className=" h-20">
+      <SidebarHeader className="h-16">
         <TopSidebar />
       </SidebarHeader>
       <SidebarContent className=" ">
