@@ -42,7 +42,11 @@ export const LoginForm = () => {
                 <ImageFormField form={form} name="captchaId" />
                 <SolutionFormField form={form} name="captchaSolution" />
                 <div className="flex flex-col gap-3">
-                  <Button disabled={isPending} type="submit" className="w-full">
+                  <Button
+                    disabled={isPending}
+                    type="submit"
+                    className="w-full text-white"
+                  >
                     {t("login")}
                   </Button>
                 </div>

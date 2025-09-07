@@ -16,5 +16,9 @@
   "already_have_account":"Hasapyňyz barmy?",
   "home_title":"Salam, size şu gün nädip kömek edip bilerin?",
   "history":"Taryh",
-  "solution":"Çözgüt"
+  "solution":"Çözgüt",
+  "ask_question": "Sorag bermek...",
+  "delete":"Pozmak",
+  "cuncel":"Ýatyrmak",
+  "do-you-really-delete-this-chat":"Вы действительно удалите этот чат?"
 }

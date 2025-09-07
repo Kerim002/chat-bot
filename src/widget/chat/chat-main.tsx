@@ -25,9 +25,17 @@ export const ChatMain = () => {
   return (
     <div
       ref={chatWindowRef}
-      className={` w-full  overflow-auto transition-all ${
+      className={` w-full scrollbar-thin overflow-auto transition-all ${
         messages?.length ? "h-[calc(100dvh-64px)]" : "h-[calc(100dvh-304px)]"
-      }  ease-out duration-75 flex flex-col  font-inter`}
+      }  ease-out duration-75 flex flex-col  font-inter
+      [scrollbar-width:thin] 
+             [scrollbar-color:theme(colors.gray.400)_transparent] 
+             [&::-webkit-scrollbar]:w-1.5 
+             [&::-webkit-scrollbar-track]:bg-transparent 
+             [&::-webkit-scrollbar-thumb]:bg-gray-400 
+             [&::-webkit-scrollbar-thumb]:rounded-full
+      
+      `}
     >
       <div
         className={`flex   max-w-5xl m-auto flex-col flex-grow w-full justify-center   mx-auto px-4`}

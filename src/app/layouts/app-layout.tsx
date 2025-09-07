@@ -8,7 +8,7 @@ export const AppLayout = () => {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main className="bg-neutral-50 w-full h-screen">
+      <main className="bg-background w-full h-screen">
         <AppNavbar />
         {/* <SidebarTrigger /> */}
         <Outlet />
