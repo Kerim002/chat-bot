@@ -21,11 +21,11 @@ export const AppSidebar = ({
 }: React.ComponentProps<typeof Sidebar>) => {
   const { t } = useTranslation();
   return (
-    <Sidebar className="" collapsible="icon" {...props}>
-      <SidebarHeader className="bg-white h-20">
+    <Sidebar className="bg-sidebar" collapsible="icon" {...props}>
+      <SidebarHeader className=" h-20">
         <TopSidebar />
       </SidebarHeader>
-      <SidebarContent className="bg-white">
+      <SidebarContent className=" ">
         <SidebarGroup className="mb-4">
           <SidebarGroupContent>
             <SidebarMenu className="">

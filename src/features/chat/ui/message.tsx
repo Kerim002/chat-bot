@@ -1,4 +1,5 @@
 import type { Message } from "@/entities/messages/types";
+import { Scale, User } from "lucide-react";
 import { useEffect, useState } from "react";
 
 type Props = Message & { isStreaming: boolean };
@@ -35,15 +36,15 @@ export const MessageItem = ({
     >
       <div className="flex flex-col">
         <div className={`w-full mb-2 flex ${isUser ? "justify-end" : ""}`}>
-          <div className="flex-shrink-0 w-8 h-8 shadow-md rounded-full bg-gray-200 flex items-center justify-center text-sm font-bold">
-            {isUser ? "U" : "G"}
+          <div className="flex-shrink-0 w-8 h-8 shadow-md rounded-full bg-sidebar text-neutral-600 dark:text-neutral-300 flex items-center justify-center text-sm font-bold">
+            {isUser ? <User /> : <Scale />}
           </div>
         </div>
         <div
           className={`p-3 rounded-xl text-sm md:text-base shadow-md max-w-lg ${
             isUser
               ? "main-bg text-white rounded-tr-xs"
-              : "bg-gray-100 rounded-tl-xs"
+              : "bg-sidebar rounded-tl-xs"
           }`}
         >
           {isUser ? (

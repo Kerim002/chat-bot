@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState,} from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePromptMutation } from "../api/use-prompt-mutation";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   isMessageExist: boolean;
 };
 
-export const ChatInput = ({
-  isMessageExist,
-}: Props) => {
+export const ChatInput = ({ isMessageExist }: Props) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
- const [inputValue, setInputValue] = useState("");
- const {id:roomId} = useParams<{id:string}>()
+  const [inputValue, setInputValue] = useState("");
+  const { id: roomId } = useParams<{ id: string }>();
+  const { t } = useTranslation();
   // Auto-resize the textarea
   useEffect(() => {
     if (textareaRef.current) {
@@ -34,12 +34,15 @@ export const ChatInput = ({
       textareaRef.current.selectionEnd = textareaRef.current.value.length;
     }
   }, [inputValue]);
-const {isPending, promptMutation} = usePromptMutation()
+  const { isPending, promptMutation } = usePromptMutation();
   const handleSendMessage = () => {
-    if(!isPending){
-      promptMutation({userPrompt:inputValue, roomId:roomId ? Number(roomId) : undefined}, {onSuccess: () => setInputValue("")})
+    if (!isPending) {
+      promptMutation(
+        { userPrompt: inputValue, roomId: roomId ? Number(roomId) : undefined },
+        { onSuccess: () => setInputValue("") }
+      );
     }
-  }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -52,16 +55,16 @@ const {isPending, promptMutation} = usePromptMutation()
     <div
       className={`${
         isMessageExist ? "sticky bottom-0 pb-4" : ""
-      } bg-neutral-50 mt-3 w-full`}
+      } bg-background mt-3 w-full pt-2`}
     >
       {/* Gradient border wrapper, only active when textarea is focused */}
-      <div className="p-[2px]  max-w-3xl m-auto rounded-full bg-gray-300 focus-within:bg-gradient-to-l focus-within:from-blue-500 focus-within:to-violet-500 ease-in transition-colors duration-300">
-        <div className="flex items-end rounded-full bg-white shadow-lg border border-transparent p-1">
+      <div className="p-[2px]  max-w-3xl m-auto rounded-full bg-gray-300 dark:bg-neutral-700 focus-within:bg-gradient-to-l focus-within:from-blue-500 focus-within:to-violet-500 ease-in transition-colors duration-300">
+        <div className="flex items-end rounded-full bg-neutral-100 dark:bg-sidebar shadow-lg border border-transparent p-1">
           <textarea
             ref={textareaRef}
             id="text-input"
             className="flex-grow resize-none bg-transparent outline-none p-2 text-base placeholder-zinc-400 rounded-xl max-h-48 overflow-y-auto"
-            placeholder="Message Gemini..."
+            placeholder={t("ask_question")}
             rows={1}
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
