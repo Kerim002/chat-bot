@@ -20,5 +20,8 @@
   "ask_question": "Sorag bermek...",
   "delete":"Pozmak",
   "cuncel":"Ýatyrmak",
-  "do-you-really-delete-this-chat":"Вы действительно удалите этот чат?"
+  "do-you-really-delete-this-chat":"Вы действительно удалите этот чат?",
+  "room_deleted":"Otag üstünlikli aýryldy.",
+  "room_deleted_unsuccess":"Otagy aýyrmak başa barmady.",
+  "logout":"Çykmak"
 }

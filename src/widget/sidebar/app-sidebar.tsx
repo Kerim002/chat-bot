@@ -7,7 +7,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
 } from "@/shared/ui/sidebar";
 import React from "react";
 import { TopSidebar } from "./top-sidebar";
@@ -15,6 +14,7 @@ import { Edit } from "lucide-react";
 import { SidebarHistory } from "./sidebar-history";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { SidebarFoot } from "./sidebar-footer";
 
 export const AppSidebar = ({
   ...props
@@ -49,8 +49,7 @@ export const AppSidebar = ({
           <SidebarHistory />
         </SidebarGroup>
       </SidebarContent>
-      {/* <SidebarFooter></SidebarFooter> */}
-      <SidebarRail />
+      <SidebarFoot />
     </Sidebar>
   );
 };

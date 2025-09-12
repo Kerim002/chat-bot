@@ -55,8 +55,8 @@ const refreshAccessToken = async (): Promise<boolean> => {
 
   if (res.ok) {
     const data = await res.json();
-    setCookie("access_token", data.access_token);
-    setCookie("refresh_token", data.refresh_token);
+    setCookie("access_token", data.access_token, 1);
+    setCookie("refresh_token", data.refresh_token, 7);
     return true;
   } else {
     window.location.href = "/sign-in";

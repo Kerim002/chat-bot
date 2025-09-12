@@ -2,9 +2,23 @@ import { ChatInput } from "@/features/chat/ui/chat-input";
 import { useTranslation } from "react-i18next";
 import { motion, type Transition } from "motion/react";
 import { useEffect, useRef, useState, useMemo } from "react";
+import { Button } from "@/shared/ui/button";
+import { Pointer } from "lucide-react";
+import { usePromptMutation } from "@/features/chat/api/use-prompt-mutation";
+
+const staticTexts = ["1-nji madda", "Zähmet kodeksi", "Iş beriji we işgär"];
 
 export const ChatEmpty = () => {
   const { t } = useTranslation();
+  const { isPending, promptMutation } = usePromptMutation();
+
+  const handleSendMessage = (inputValue: string) => {
+    if (!isPending) {
+      promptMutation({
+        userPrompt: inputValue,
+      });
+    }
+  };
 
   return (
     <div
@@ -22,6 +36,20 @@ export const ChatEmpty = () => {
         </header>
 
         <ChatInput isMessageExist={false} />
+        <div className="w-full flex items-center">
+          <div className="p-3 max-w-3xl   mx-auto flex-wrap space-x-3 space-y-3 justify-center items-center">
+            {staticTexts.map((item, index) => (
+              <Button
+                onClick={() => handleSendMessage(item)}
+                key={index}
+                variant="secondary"
+              >
+                <Pointer />
+                <p>{item}</p>
+              </Button>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
