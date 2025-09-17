@@ -1,6 +1,9 @@
 import type { Message } from "@/entities/messages/types";
 import { Scale, User } from "lucide-react";
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import "./index.css";
 
 type Props = Message & { isStreaming: boolean };
 
@@ -12,27 +15,30 @@ export const MessageItem = ({
   isStreaming,
 }: Props) => {
   const [displayedText, setDisplayedText] = useState(isStreaming ? "" : prompt);
+
   useEffect(() => {
-    if (!isStreaming) return;
+    if (!isStreaming) {
+      return;
+    }
 
     let i = 0;
+    setDisplayedText(prompt[0] || "");
     const interval = setInterval(() => {
       if (i < prompt.length - 1) {
-        setDisplayedText((prev) => prev + prompt[i]);
         i++;
+        setDisplayedText((prev) => prev + prompt[i]);
       } else {
         clearInterval(interval);
       }
-    }, 30); // typing speed
+    }, 30);
 
     return () => clearInterval(interval);
   }, [isStreaming, prompt]);
+
   return (
     <div
       key={id}
-      className={`flex items-end gap-2  ${
-        isUser ? "justify-end" : "justify-start"
-      }`}
+      className={`flex items-end gap-2 ${isUser ? "justify-end" : "justify-start"}`}
     >
       <div className="flex flex-col">
         <div className={`w-full mb-2 flex ${isUser ? "justify-end" : ""}`}>
@@ -41,7 +47,7 @@ export const MessageItem = ({
           </div>
         </div>
         <div
-          className={`p-3 rounded-xl text-sm md:text-base shadow-md max-w-lg ${
+          className={`p-3 rounded-xl text-sm md:text-base shadow-md max-w-full markdown ${
             isUser
               ? "main-bg text-white rounded-tr-xs"
               : "bg-sidebar rounded-tl-xs"
@@ -50,7 +56,9 @@ export const MessageItem = ({
           {isUser ? (
             <p>{prompt}</p>
           ) : (
-            <p dangerouslySetInnerHTML={{ __html: displayedText }} />
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {displayedText}
+            </ReactMarkdown>
           )}
         </div>
         <div

@@ -1,0 +1,11 @@
+.markdown > table,td,th{
+    border: 1px solid var(--color-border);
+    padding: 10px;
+}
+.markdown > p{
+    padding: 10px 10px 10px 10px;
+}
+.markdown > ul,ol{
+    padding: 5px 0px 5px 20px;
+    list-style: decimal !important;
+}

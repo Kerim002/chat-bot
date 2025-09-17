@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 
 type Props = {
   isMessageExist: boolean;
+  onSend?: (inputValue: string) => void; // <-- onSend desteği eklendi
 };
 
 export const ChatInput = ({ isMessageExist }: Props) => {
@@ -58,8 +59,8 @@ export const ChatInput = ({ isMessageExist }: Props) => {
       } bg-background mt-3 w-full pt-2`}
     >
       {/* Gradient border wrapper, only active when textarea is focused */}
-      <div className="p-[2px]  max-w-3xl m-auto rounded-full bg-gray-300 dark:bg-neutral-700 focus-within:bg-gradient-to-l focus-within:from-blue-500 focus-within:to-violet-500 ease-in transition-colors duration-300">
-        <div className="flex items-end rounded-full bg-neutral-100 dark:bg-sidebar shadow-lg border border-transparent p-1">
+      <div className="p-[2px]  max-w-3xl m-auto rounded-4xl bg-gray-300 dark:bg-neutral-700 focus-within:bg-gradient-to-l focus-within:from-blue-500 focus-within:to-violet-500 ease-in transition-colors duration-300">
+        <div className="flex items-end rounded-4xl bg-neutral-100 dark:bg-sidebar shadow-lg border border-transparent p-1">
           <textarea
             ref={textareaRef}
             id="text-input"
