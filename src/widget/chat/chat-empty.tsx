@@ -1,53 +1,89 @@
+// ChatEmpty.tsx
 import { ChatInput } from "@/features/chat/ui/chat-input";
 import { useTranslation } from "react-i18next";
 import { motion, type Transition } from "motion/react";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { Button } from "@/shared/ui/button";
-import { Pointer } from "lucide-react";
+import { Pointer, Star, Check } from "lucide-react";
 import { usePromptMutation } from "@/features/chat/api/use-prompt-mutation";
 
-const staticTexts = ["1-nji madda", "Zähmet kodeksi", "Iş beriji we işgär"];
+const staticTexts = [
+  "Zähmet kodeksiniň maksady we wezipesi näme?",
+  "Esasy düşünjeleri düşündir: iş beriji, işçi, iş şertnamasy.",
+  "Zähmet gatnaşyklaryny düzgünleşdirýän çeşmeleri görkez.",
+  "Zähmet şertnamasynyň ýazma görnüşiniň hökmanylygyny düşündir.",
+  "Şertnamanyň möhletli we möhletsiz görnüşleriniň tapawudyny görkez.",
+  "Işe kabul etmegiň düzgünleri barada maglumat ber.",
+  "Şertnamanyň ýatyrylmagynyň sebäplerini düşündir.",
+  "Iş wagtynyň kadalaşdyrylan dowamlylygyny görkez.",
+  "Gysga iş güni haçan ulanylýar?",
+  "Arakesme we dynç alyş günleri barada maglumat ber.",
+  "Ýyllyk zähmet rugsatynyň dowamlylygyny düşündir.",
+  "Aýlyklaryň töleniş tertibini düşündir.",
+  "Zähmet haklarynyň iň az möçberi barada maglumat ber.",
+  "Aýlyklaryň gijikdirilmegi ýagdaýynda işçiniň hukugy näme?",
+  "Aýal maşgalalaryň zähmetdäki goraglylygyny düşündir.",
+  "Ýetginjekleriň işini düzgünleşdirýän maddany görkez.",
+  "Maýyplaryň zähmet hukugyny düşündir.",
+  "Işçiniň esasy hukuklaryny görkez.",
+  "Iş berijiniň borçlaryny düşündir.",
+  "Zähmet kodeksindäki jogapkärçilik çärelerini seljer."
+];
+
+// Rastgele 4 öğe seçen fonksiyon
+const getRandomStaticTexts = (texts: string[], count: number = 4) => {
+  const shuffled = [...texts].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+};
+
+// Dinamik ikon dizisi
+const icons = [Pointer, Star, Check];
 
 export const ChatEmpty = () => {
   const { t } = useTranslation();
   const { isPending, promptMutation } = usePromptMutation();
+  const randomTexts = useMemo(() => getRandomStaticTexts(staticTexts), []);
 
   const handleSendMessage = (inputValue: string) => {
-    if (!isPending) {
-      promptMutation({
-        userPrompt: inputValue,
-      });
+    if (!isPending && inputValue.trim() !== "") {
+      promptMutation({ userPrompt: inputValue });
     }
   };
 
   return (
-    <div
-      className={`w-full overflow-auto transition-all h-[calc(100dvh-304px)] ease-out duration-75 flex flex-col font-inter`}
-    >
-      <div className="flex max-w-5xl m-auto flex-col flex-grow w-full justify-center px-4">
-        <header className="flex justify-center text-center mb-8">
+    <div className="w-full h-[calc(100dvh-304px)] overflow-auto flex flex-col font-inter transition-all ease-out duration-75">
+      <div className="flex flex-col items-center justify-center flex-grow max-w-5xl mx-auto px-4">
+        {/* Başlık */}
+        <header className="mb-8 text-center">
           <BlurText
             text={t("home_title")}
             delay={150}
             animateBy="words"
             direction="top"
-            className="md:text-4xl  text-2xl font-semibold text-gray-500 dark:text-neutral-300"
+            className="text-2xl md:text-4xl font-semibold text-gray-500 dark:text-neutral-300"
           />
         </header>
 
-        <ChatInput isMessageExist={false} />
-        <div className="w-full flex items-center">
-          <div className="p-3 max-w-3xl   mx-auto flex-wrap space-x-3 space-y-3 justify-center items-center">
-            {staticTexts.map((item, index) => (
-              <Button
-                onClick={() => handleSendMessage(item)}
-                key={index}
-                variant="secondary"
-              >
-                <Pointer />
-                <p>{item}</p>
-              </Button>
-            ))}
+        {/* Chat input */}
+        <ChatInput isMessageExist={false} onSend={handleSendMessage} />
+
+        {/* Önerilen sorular */}
+        <div className="w-full flex justify-center mt-6">
+          <div className="flex flex-wrap gap-3 max-w-3xl justify-center">
+            {randomTexts.map((item, index) => {
+              const IconComponent = icons[index % icons.length]; // sırayla ikon seç
+              return (
+                <Button
+                  key={item}
+                  variant="secondary"
+                  className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-blue-100 dark:hover:bg-neutral-700 transition-colors rounded-xl active:scale-95"
+                  onClick={() => handleSendMessage(item)}
+                >
+                  <IconComponent className="w-4 h-4" />
+                  <span>{item}</span>
+                </Button>
+              );
+            })}
           </div>
         </div>
       </div>
@@ -55,6 +91,7 @@ export const ChatEmpty = () => {
   );
 };
 
+/* -------- BlurText Component --------- */
 type Keyframes = Record<string, any>;
 
 const buildKeyframes = (from: Keyframes, steps: Keyframes[]): Keyframes => {
@@ -62,7 +99,6 @@ const buildKeyframes = (from: Keyframes, steps: Keyframes[]): Keyframes => {
     ...Object.keys(from),
     ...steps.flatMap((s) => Object.keys(s)),
   ]);
-
   const keyframes: Keyframes = {};
   keys.forEach((k) => {
     keyframes[k] = [from[k], ...steps.map((s) => s[k])];
@@ -72,7 +108,7 @@ const buildKeyframes = (from: Keyframes, steps: Keyframes[]): Keyframes => {
 
 interface BlurTextProps {
   text?: string;
-  delay?: number; // in ms
+  delay?: number;
   className?: string;
   animateBy?: "words" | "letters";
   direction?: "top" | "bottom";
@@ -82,7 +118,7 @@ interface BlurTextProps {
   animationTo?: Keyframes[];
   easing?: (t: number) => number;
   onAnimationComplete?: () => void;
-  stepDuration?: number; // in seconds
+  stepDuration?: number;
 }
 
 const BlurText = ({
@@ -128,11 +164,7 @@ const BlurText = ({
 
   const defaultTo: Keyframes[] = useMemo(
     () => [
-      {
-        filter: "blur(5px)",
-        opacity: 0.5,
-        y: direction === "top" ? 5 : -5,
-      },
+      { filter: "blur(5px)", opacity: 0.5, y: direction === "top" ? 5 : -5 },
       { filter: "blur(0px)", opacity: 1, y: 0 },
     ],
     [direction]
@@ -147,6 +179,11 @@ const BlurText = ({
     stepCount === 1 ? 0 : i / (stepCount - 1)
   );
 
+  const animateKeyframes = useMemo(
+    () => buildKeyframes(fromSnapshot, toSnapshots),
+    [fromSnapshot, toSnapshots]
+  );
+
   return (
     <p
       ref={ref}
@@ -154,12 +191,10 @@ const BlurText = ({
       style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}
     >
       {elements.map((segment, index) => {
-        const animateKeyframes = buildKeyframes(fromSnapshot, toSnapshots);
-
         const spanTransition: Transition = {
           duration: totalDuration,
           times,
-          delay: (index * delay) / 1000,
+          delay: (animateBy === "words" && segment === " ") ? 0 : (index * delay) / 1000,
           ease: easing,
         };
 

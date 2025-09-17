@@ -9,7 +9,7 @@ export const postMessage = async (data:MessageParams) => {
         max_tokens:500,
         room_id: data.roomId ? Number(data.roomId) : undefined,
         similarity_threshold:0.3,
-        temperature:0.7,
+        temperature:0.5,
         top_k:3,
         user_prompt:data.userPrompt
     }

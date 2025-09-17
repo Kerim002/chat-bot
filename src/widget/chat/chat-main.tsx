@@ -38,7 +38,7 @@ export const ChatMain = () => {
       `}
     >
       <div
-        className={`flex   max-w-5xl m-auto flex-col flex-grow w-full justify-center   mx-auto px-4`}
+        className={`flex   max-w-full m-auto flex-col flex-grow w-full justify-center   mx-auto px-4`}
       >
         {!messages?.length ? (
           <header className="flex-none text-center mb-8">
@@ -58,6 +58,7 @@ export const ChatMain = () => {
                 <MessageItem
                   key={message.id}
                   {...message}
+                  prompt={message.prompt}
                   isStreaming={isLast && isRecent}
                 />
               );

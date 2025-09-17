@@ -1,4 +1,4 @@
-import { lazy, StrictMode, Suspense } from "react";
+import { lazy,  Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import "./style/index.css";
 const AppRouter = lazy(() => import("./routes/main.routes"));
@@ -6,7 +6,7 @@ import { MainProvider } from "./layouts/main-provider";
 import "../shared/localization/i18n";
 import { ThemeProvider } from "./layouts/theme-provider";
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+  // <StrictMode>
     <ThemeProvider>
       <MainProvider>
         <Suspense>
@@ -14,5 +14,5 @@ createRoot(document.getElementById("root")!).render(
         </Suspense>
       </MainProvider>
     </ThemeProvider>
-  </StrictMode>
+  // </StrictMode>
 );
