@@ -123,4 +123,13 @@
   .main-bg {
     @apply bg-gradient-to-l from-blue-500 to-violet-500  hover:from-blue-400 hover:to-violet-400;
   }
+
+  [data-index] .ellipsis {
+    @apply opacity-0 pointer-events-none transition-opacity duration-150;
+  }
+
+  /* show only when the parent (any data-index) is hovered */
+  [data-index]:hover .ellipsis {
+    @apply opacity-100 pointer-events-auto;
+  }
 }

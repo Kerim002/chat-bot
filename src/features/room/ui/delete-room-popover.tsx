@@ -15,21 +15,22 @@ export const DeleteRoomPopover = ({ id }: Props) => {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button className={`${open ? "" : "hidden"}`} variant="ghost">
+        <Button
+          variant="ghost"
+          className={`
+            ${open ? "size-6" : "hidden"}
+            ellipsis
+          `}
+        >
           <EllipsisVertical />
         </Button>
       </PopoverTrigger>
-      <PopoverContent
-        side="bottom"
-        align="start"
-        className="sm:align-end w-fit align-center p-1"
-      >
-        <div className="">
-          <Button variant="destructive" onClick={() => deleteRoomMutation(id!)}>
-            <Trash />
-            {t("delete")}
-          </Button>
-        </div>
+
+      <PopoverContent side="bottom" align="start" className="w-fit p-1">
+        <Button variant="destructive" onClick={() => deleteRoomMutation(id)}>
+          <Trash className="mr-2" />
+          {t("delete")}
+        </Button>
       </PopoverContent>
     </Popover>
   );

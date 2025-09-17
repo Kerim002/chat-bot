@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 
 export const AppNavbar = () => {
   const { t, i18n } = useTranslation();
-  useQuery(authApi.authQueries.protected());
+  // useQuery(authApi.authQueries.protected());
   const { theme, toggleTheme } = useTheme();
 
   return (
