@@ -10,11 +10,12 @@ import {
 } from "@/shared/ui/sidebar";
 import React from "react";
 import { TopSidebar } from "./top-sidebar";
-import { Edit, Search } from "lucide-react";
+import { Edit } from "lucide-react";
 import { SidebarHistory } from "./sidebar-history";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { SidebarFoot } from "./sidebar-footer";
+import { SearchDialog } from "./search-dialog";
 
 export const AppSidebar = ({
   ...props
@@ -40,14 +41,7 @@ export const AppSidebar = ({
                 </Link>
               </SidebarMenuItem>
               <SidebarMenuItem>
-                <Link to={"/"}>
-                  <SidebarMenuButton className="" asChild>
-                    <div>
-                      <Search className="size-5" />
-                      <span>{t("search")}</span>
-                    </div>
-                  </SidebarMenuButton>
-                </Link>
+                <SearchDialog />
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>

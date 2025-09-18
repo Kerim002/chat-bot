@@ -27,7 +27,7 @@ const staticTexts = [
   "Maýyplaryň zähmet hukugyny düşündir.",
   "Işçiniň esasy hukuklaryny görkez.",
   "Iş berijiniň borçlaryny düşündir.",
-  "Zähmet kodeksindäki jogapkärçilik çärelerini seljer."
+  "Zähmet kodeksindäki jogapkärçilik çärelerini seljer.",
 ];
 
 // Rastgele 4 öğe seçen fonksiyon
@@ -43,7 +43,6 @@ export const ChatEmpty = () => {
   const { t } = useTranslation();
   const { isPending, promptMutation } = usePromptMutation();
   const randomTexts = useMemo(() => getRandomStaticTexts(staticTexts), []);
-
   const handleSendMessage = (inputValue: string) => {
     if (!isPending && inputValue.trim() !== "") {
       promptMutation({ userPrompt: inputValue });
@@ -51,7 +50,7 @@ export const ChatEmpty = () => {
   };
 
   return (
-    <div className="w-full h-[calc(100dvh-304px)] overflow-auto flex flex-col font-inter transition-all ease-out duration-75">
+    <div className="w-full  h-[calc(100dvh-304px)] overflow-auto flex flex-col font-inter transition-all ease-out duration-75">
       <div className="flex flex-col items-center justify-center flex-grow max-w-5xl mx-auto px-4">
         {/* Başlık */}
         <header className="mb-8 text-center">
@@ -69,14 +68,14 @@ export const ChatEmpty = () => {
 
         {/* Önerilen sorular */}
         <div className="w-full flex justify-center mt-6">
-          <div className="flex flex-wrap gap-3 max-w-3xl justify-center">
+          <div className="flex flex-wrap gap-3 max-w-3xl w-full justify-center">
             {randomTexts.map((item, index) => {
-              const IconComponent = icons[index % icons.length]; // sırayla ikon seç
+              const IconComponent = icons[index % icons.length];
               return (
                 <Button
                   key={item}
                   variant="secondary"
-                  className="flex items-center gap-2 px-4 py-2 text-sm hover:bg-blue-100 dark:hover:bg-neutral-700 transition-colors rounded-xl active:scale-95"
+                  className="flex items-center md:text-base break-words text-xs gap-2 px-4 py-2  hover:bg-blue-100 dark:hover:bg-neutral-700 transition-colors rounded-xl active:scale-95"
                   onClick={() => handleSendMessage(item)}
                 >
                   <IconComponent className="w-4 h-4" />
@@ -194,7 +193,10 @@ const BlurText = ({
         const spanTransition: Transition = {
           duration: totalDuration,
           times,
-          delay: (animateBy === "words" && segment === " ") ? 0 : (index * delay) / 1000,
+          delay:
+            animateBy === "words" && segment === " "
+              ? 0
+              : (index * delay) / 1000,
           ease: easing,
         };
 

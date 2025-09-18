@@ -3,7 +3,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/shared/ui/form";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +13,6 @@ import type {
   PathValue,
   UseFormReturn,
 } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 
 type Props<T extends FieldValues> = {
   form: UseFormReturn<T>;
@@ -26,7 +24,7 @@ export const ImageFormField = <T extends FieldValues>({
   name,
 }: Props<T>) => {
   const { data: captcha, isPending } = useQuery(authApi.authQueries.captcha());
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   useEffect(() => {
     if (captcha) {
       form.setValue(name, captcha.captchaId as PathValue<T, typeof name>);
@@ -38,7 +36,7 @@ export const ImageFormField = <T extends FieldValues>({
       name={name}
       render={() => (
         <FormItem>
-          <FormLabel>{t("solution")}</FormLabel>
+          {/* <FormLabel>{t("solution")}</FormLabel> */}
           <FormControl className="w-full">
             {isPending ? (
               <div></div>

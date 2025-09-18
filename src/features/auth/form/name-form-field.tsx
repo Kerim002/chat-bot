@@ -6,6 +6,7 @@ import {
   FormMessage,
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
+import { LockOpen, UserRound } from "lucide-react";
 import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -25,14 +26,18 @@ export const NameFormField = <T extends FieldValues>({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{t("username")}</FormLabel>
+          {/* <FormLabel>{t("username")}</FormLabel> */}
           <FormControl className="w-full">
-            <Input
-              autoComplete="off"
-              type="text"
-              className="w-full "
-              {...field}
-            />
+            <div className="relative flex items-center">
+              <UserRound className="absolute left-2 text-gray-400" />
+              <Input
+                autoComplete="off"
+                type="text"
+                className="pl-10 h-12"
+                placeholder={t("username")}
+                {...field}
+              />
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>

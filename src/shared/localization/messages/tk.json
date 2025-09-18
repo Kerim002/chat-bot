@@ -23,5 +23,8 @@
   "do-you-really-delete-this-chat":"Вы действительно удалите этот чат?",
   "room_deleted":"Otag üstünlikli aýryldy.",
   "room_deleted_unsuccess":"Otagy aýyrmak başa barmady.",
-  "logout":"Çykmak"
+  "logout":"Çykmak",
+  "theme":"Tema",
+  "language":"Dil",
+  "search":"Gözleg"
 }

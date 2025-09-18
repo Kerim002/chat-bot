@@ -29,12 +29,13 @@ export const LoginForm = () => {
   return (
     <Form {...form}>
       <div className={cn("flex flex-col gap-6")}>
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("login_title")}</CardTitle>
+        <h1 className="text-4xl text-center font-semibold">Sanly an</h1>
+        <Card className="rounded-2xl px-10 py-10">
+          <CardHeader className="p-0">
+            <CardTitle className="hidden" />
             <CardDescription>{t("login_subtitle")}</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-0">
             <form onSubmit={form.handleSubmit(submit)}>
               <div className="flex flex-col gap-6">
                 <NameFormField form={form} name="name" />
@@ -51,12 +52,6 @@ export const LoginForm = () => {
                   </Button>
                 </div>
               </div>
-              {/* <div className="mt-4 text-center text-sm">
-                {t("no_account")}
-                <Link to="/sign-up" className="underline underline-offset-4">
-                  {t("create_account")}
-                </Link>
-              </div> */}
             </form>
           </CardContent>
         </Card>

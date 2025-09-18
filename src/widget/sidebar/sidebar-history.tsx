@@ -10,54 +10,34 @@ import {
   useSidebar,
 } from "@/shared/ui/sidebar";
 import { useQuery } from "@tanstack/react-query";
-import { MessageSquare } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
 export const SidebarHistory = () => {
-  // const { data: rooms } = useQuery(roomApi.roomQueries.rooms());
+  const { data: rooms } = useQuery(roomApi.roomQueries.rooms());
   const { t } = useTranslation();
   const { open } = useSidebar();
+
   return (
     <SidebarGroup
-      className={` scrollbar ${
+      className={`scrollbar-thin scrollbar-thumb-neutral-500 scrollbar-track-neutral-200 dark:scrollbar-track-neutral-800  ${
         open ? "overflow-auto" : "hidden"
       } [direction:rtl] [&>*]:[direction:ltr]`}
     >
       <SidebarGroupLabel>{t("history")}</SidebarGroupLabel>
       <SidebarGroupContent>
-        {/* <SidebarMenu className="">
-          {rooms?.map((room) => (
-            <SidebarMenuItem
-              className="flex items-center justify-between"
-              key={room.id}
-            >
-              <SidebarMenuButton className="" asChild>
-                <Link to={`/room/${room.id}`}>
-                  <MessageSquare className="text-sm size-4" />
-                  <span>{room.title}</span>
-                </Link>
-              </SidebarMenuButton>
-              <DeleteRoomPopover id={room.id} />
-            </SidebarMenuItem>
-          ))} */}
         <SidebarMenu>
-          {Array.from({ length: 30 }).map((_, i) => (
+          {rooms?.map((item, i) => (
             <SidebarMenuItem
               key={i}
               data-index={i}
               className="flex items-center justify-between group"
             >
               <SidebarMenuButton asChild>
-                <Link to={`/room`}>
-                  <span>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Voluptates, nam!
-                  </span>
+                <Link to={`/room/${item.id}`}>
+                  <span>{item.title}</span>
                 </Link>
               </SidebarMenuButton>
-
-              {/* The popover button will only show when THIS item is hovered */}
               <DeleteRoomPopover id={i} />
             </SidebarMenuItem>
           ))}

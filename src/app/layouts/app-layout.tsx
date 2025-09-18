@@ -11,7 +11,7 @@ export const AppLayout = () => {
       <main className="bg-background w-full h-screen">
         <AppNavbar />
         {/* <SidebarTrigger /> */}
-        {/* <Outlet /> */}
+        <Outlet />
       </main>
       {/* <SidebarInset>
         <div className={cn("h-screen  w-full px-4 py-4 flex relative  ")}>

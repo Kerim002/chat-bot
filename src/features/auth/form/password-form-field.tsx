@@ -2,10 +2,10 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
+import { LockOpen } from "lucide-react";
 import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 
@@ -27,19 +27,21 @@ Props<T>) => {
       name={name}
       render={({ field }) => (
         <FormItem className="grid gap-3">
-          <div className="flex items-center">
+          {/* <div className="flex items-center">
             <FormLabel>{t("password")}</FormLabel>
-            {/* {showForgot && (
-              <a
-                href="#"
-                className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-              >
-                Forgot your password?
-              </a>
-            )} */}
-          </div>
-          <FormControl className="grid gap-3">
-            <Input id="password" type="password" required {...field} />
+          </div> */}
+          <FormControl className="grid gap-3 ">
+            <div className="relative flex items-center">
+              <LockOpen className="absolute left-2 text-gray-400" />
+              <Input
+                id="password"
+                placeholder={t("password")}
+                className="pl-10 h-12"
+                type="password"
+                required
+                {...field}
+              />
+            </div>
           </FormControl>
           <FormMessage />
         </FormItem>
