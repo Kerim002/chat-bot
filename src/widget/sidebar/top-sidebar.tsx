@@ -1,4 +1,3 @@
-import { Button } from "@/shared/ui/button";
 import { SidebarTrigger, useSidebar } from "@/shared/ui/sidebar";
 
 import { Brain } from "lucide-react";
@@ -6,19 +5,22 @@ import { Brain } from "lucide-react";
 export const TopSidebar = () => {
   //   const { i18n } = useTranslation();
   const { open, toggleSidebar } = useSidebar();
+
   return (
-    <div className={`w-full group h-full flex items-center justify-between`}>
-      <Button
+    <div className={`w-full  group h-full flex items-center justify-between`}>
+      <div
         onClick={() => toggleSidebar()}
-        className={`${
-          open ? "size-7" : "w-full  hidden group-hover:inline-flex"
+        className={`p-1 transition-transform duration-100 ease-in  ${
+          open ? "size-7" : "w-fit   hidden group-hover:inline-flex"
         }`}
-        variant="ghost"
       >
-        <Brain className="size-6" />
-      </Button>
+        <Brain onClick={() => toggleSidebar()} className="size-6" />
+      </div>
+      {/* </Button> */}
       <SidebarTrigger
-        className={`${open ? "" : "w-full group-hover:hidden"}`}
+        className={`transition-transform duration-100 ${
+          open ? "" : "w-full group-hover:hidden"
+        }`}
       />
     </div>
   );

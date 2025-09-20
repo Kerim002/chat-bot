@@ -12,15 +12,16 @@ import React from "react";
 import { TopSidebar } from "./top-sidebar";
 import { Edit } from "lucide-react";
 import { SidebarHistory } from "./sidebar-history";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { SidebarFoot } from "./sidebar-footer";
-import { SearchDialog } from "./search-dialog";
+import { SearchDialog } from "../../features/sidebar/dialog/search-dialog";
 
 export const AppSidebar = ({
   ...props
 }: React.ComponentProps<typeof Sidebar>) => {
   const { t } = useTranslation();
+  const { search } = useLocation();
   return (
     <Sidebar className="bg-sidebar" collapsible="icon" {...props}>
       <SidebarHeader className="h-16">
@@ -31,7 +32,7 @@ export const AppSidebar = ({
           <SidebarGroupContent>
             <SidebarMenu className="">
               <SidebarMenuItem>
-                <Link to={"/"}>
+                <Link to={`/${search}`}>
                   <SidebarMenuButton className="" asChild>
                     <div>
                       <Edit className="size-5" />
@@ -46,13 +47,7 @@ export const AppSidebar = ({
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        <div className="px-2">
-          <hr />
-        </div>
         <SidebarHistory />
-        <div className="px-2">
-          <hr />
-        </div>
       </SidebarContent>
       <SidebarFoot />
     </Sidebar>

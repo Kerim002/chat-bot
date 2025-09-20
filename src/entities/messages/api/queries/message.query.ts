@@ -1,11 +1,14 @@
-export type MessageQuery = {user_prompt: string,
-  room_id?: number,
-  temperature: 0.5,
-  max_tokens: 500,
-  top_k: 3,
-  similarity_threshold: 0.3}
+export type MessageQuery = {
+  user_prompt: string;
+  room_id?: number;
+  temperature: number;
+  max_tokens: number;
+  top_k: number;
+  similarity_threshold: number;
+};
 
 export type MessageParams = {
-    roomId?:number
-    userPrompt:string
-}
+  roomId?: number;
+  userPrompt: string;
+  temperature?: number;
+};

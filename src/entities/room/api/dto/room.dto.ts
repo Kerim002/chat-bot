@@ -7,4 +7,5 @@ export type RoomItemDto = {
 
 export type RoomDto = {
   rooms: RoomItemDto[];
+  has_next: boolean;
 };

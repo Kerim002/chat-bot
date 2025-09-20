@@ -2,11 +2,10 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/shared/ui/form";
 import { Input } from "@/shared/ui/input";
-import { LockOpen, UserRound } from "lucide-react";
+import { UserRound } from "lucide-react";
 import type { FieldValues, Path, UseFormReturn } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 

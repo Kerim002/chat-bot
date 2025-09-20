@@ -1,21 +1,18 @@
 import type { Message } from "@/entities/messages/types";
-import { Scale, User } from "lucide-react";
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "./index.css";
+import { Copy, RefreshCcw } from "lucide-react";
+import { Button } from "@/shared/ui/button";
+import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 type Props = Message & { isStreaming: boolean };
 
-export const MessageItem = ({
-  id,
-  isUser,
-  prompt,
-  createdAt,
-  isStreaming,
-}: Props) => {
+export const MessageItem = ({ id, isUser, prompt, isStreaming }: Props) => {
   const [displayedText, setDisplayedText] = useState(isStreaming ? "" : prompt);
-
+  const { t } = useTranslation();
   useEffect(() => {
     if (!isStreaming) {
       return;
@@ -38,19 +35,19 @@ export const MessageItem = ({
   return (
     <div
       key={id}
-      className={`flex items-end gap-2 ${isUser ? "justify-end" : "justify-start"}`}
+      className={`flex items-end gap-2 ${
+        isUser ? "justify-end" : "justify-start"
+      }`}
     >
       <div className="flex flex-col">
-        <div className={`w-full mb-2 flex ${isUser ? "justify-end" : ""}`}>
+        {/* <div className={`w-full mb-2 flex ${isUser ? "justify-end" : ""}`}>
           <div className="flex-shrink-0 w-8 h-8 shadow-md rounded-full bg-sidebar text-neutral-600 dark:text-neutral-300 flex items-center justify-center text-sm font-bold">
             {isUser ? <User /> : <Scale />}
           </div>
-        </div>
+        </div> */}
         <div
-          className={`p-3 rounded-xl text-sm md:text-base shadow-md max-w-full markdown ${
-            isUser
-              ? "main-bg text-white rounded-tr-xs"
-              : "bg-sidebar rounded-tl-xs"
+          className={` rounded-lg text-sm md:text-base  max-w-full markdown ${
+            isUser ? "bg-gray-200 dark:bg-neutral-700" : ""
           }`}
         >
           {isUser ? (
@@ -66,14 +63,32 @@ export const MessageItem = ({
             isUser ? "text-right" : "text-left"
           }`}
         >
-          {formatTime(createdAt)}
+          {/* {formatTime(createdAt)} */}
+          <div>
+            <Button
+              onClick={() =>
+                navigator.clipboard
+                  .writeText(prompt)
+                  .then(() => toast.success(t("copied")))
+              }
+              variant={"ghost"}
+              size={"icon"}
+            >
+              <Copy className="" />
+            </Button>
+            {!isUser ? (
+              <Button variant={"ghost"} size={"icon"}>
+                <RefreshCcw />
+              </Button>
+            ) : null}
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-const formatTime = (iso: string) => {
-  const date = new Date(iso);
-  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-};
+// const formatTime = (iso: string) => {
+//   const date = new Date(iso);
+//   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+// };

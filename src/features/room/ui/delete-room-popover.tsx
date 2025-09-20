@@ -10,8 +10,12 @@ type Props = {
 };
 export const DeleteRoomPopover = ({ id }: Props) => {
   const { t } = useTranslation();
-  const { deleteRoomMutation } = useDeleteRoomMutation();
+  const { mutate } = useDeleteRoomMutation();
   const { open } = useSidebar();
+  const handleDelete = (id: number) => {
+    mutate(id);
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -27,7 +31,7 @@ export const DeleteRoomPopover = ({ id }: Props) => {
       </PopoverTrigger>
 
       <PopoverContent side="bottom" align="start" className="w-fit p-1">
-        <Button variant="destructive" onClick={() => deleteRoomMutation(id)}>
+        <Button variant="destructive" onClick={() => handleDelete(id)}>
           <Trash className="mr-2" />
           {t("delete")}
         </Button>

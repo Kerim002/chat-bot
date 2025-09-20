@@ -1,35 +1,56 @@
 import { messagesApi } from "@/entities/messages";
-import { roomApi } from "@/entities/room";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import {
+  useMutation,
+  useQueryClient,
+  type InfiniteData,
+} from "@tanstack/react-query";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const usePromptMutation = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { search } = useLocation();
   const { mutate: promptMutation, isPending } = useMutation({
     mutationFn: messagesApi.postMessage,
     onSuccess: (data, { roomId, userPrompt }) => {
+      // if API created a new room → update rooms cache
       if (data.chatroomId !== roomId) {
-        queryClient.setQueryData(
-          roomApi.roomQueries.rooms().queryKey,
-          (oldData) => {
-            if (!oldData) return [];
-            const newRoom = oldData.concat({
-              id: Date.now(),
-              title: data.chatroomTitle,
-              userId: data.userId,
-              createdAt: new Date(Date.now()).toDateString(),
-            });
-            return newRoom;
+        queryClient.setQueryData<InfiniteData<any>>(
+          ["rooms", { limit: 20 }],
+          (old) => {
+            if (!old) return old;
+            return {
+              ...old,
+              pages: old.pages.map((page, i) => {
+                if (i === 0) {
+                  return {
+                    ...page,
+                    items: [
+                      {
+                        id: data.chatroomId,
+                        title: data.chatroomTitle,
+                        userId: data.userId,
+                        createdAt: new Date().toISOString(),
+                      },
+                      ...page.items,
+                    ],
+                  };
+                }
+                return page;
+              }),
+            };
           }
         );
-        navigate(`/room/${data.chatroomId}`);
+
+        navigate(`/room/${data.chatroomId}${search}`);
       } else {
+        // if posting inside existing room → update messages cache
         queryClient.setQueryData(
           messagesApi.messageQueries.messages(data.chatroomId).queryKey,
-          (oldData) => {
-            if (!oldData) return [];
-            const newData = oldData.concat([
+          (old: any) => {
+            if (!old) return [];
+            return [
+              ...old,
               {
                 id: Date.now(),
                 createdAt: new Date().toISOString(),
@@ -44,12 +65,12 @@ export const usePromptMutation = () => {
                 isUser: false,
                 roomId: data.chatroomId,
               },
-            ]);
-            return newData;
+            ];
           }
         );
       }
     },
   });
+
   return { promptMutation, isPending };
 };

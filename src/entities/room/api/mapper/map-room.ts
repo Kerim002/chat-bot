@@ -1,10 +1,12 @@
 import type { Room } from "../../model/room";
-import type { RoomDto } from "../dto/room.dto";
+import type { RoomItemDto } from "../dto/room.dto";
 
-export const mapRoom = (dto: RoomDto): Room[] =>
-  dto?.rooms?.map((room) => ({
-    id: room?.id,
-    createdAt: room?.created_at,
-    title: room?.title,
-    userId: room?.user_id,
-  })) ?? [];
+export const mapRoom = (dto: RoomItemDto): Room => {
+  const { created_at, id, title, user_id } = dto;
+  return {
+    id: id,
+    createdAt: created_at,
+    title: title,
+    userId: user_id,
+  };
+};

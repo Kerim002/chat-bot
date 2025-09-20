@@ -26,5 +26,16 @@
   "logout":"Çykmak",
   "theme":"Tema",
   "language":"Dil",
-  "search":"Gözleg"
+  "search":"Gözleg",
+  "copied":"Göçürildi",
+  "ai":"Sanly aň",
+  "fast":"Çalt",
+  "normal":"Adaty",
+  "clever":"Akylly",
+  "settings":"Sazlamalar",
+  "light":"Ýagty",
+  "dark":"Garaňky",
+  "system":"Sistema",
+  "loading":"Ýüklenýar...",
+  "profile":"Hasabym"
 }

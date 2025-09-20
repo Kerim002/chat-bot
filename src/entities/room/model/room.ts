@@ -4,3 +4,8 @@ export type Room = {
   userId: number;
   createdAt: string;
 };
+
+export type RoomPagination = {
+  items: Room[];
+  hasNext: boolean;
+};

@@ -25,7 +25,7 @@ export const ChatMain = () => {
   return (
     <div
       ref={chatWindowRef}
-      className={` w-full scrollbar-thin overflow-auto transition-all ${
+      className={`w-full   scrollbar-thin overflow-auto transition-all ${
         messages?.length ? "h-[calc(100dvh-64px)]" : "h-[calc(100dvh-304px)]"
       }  ease-out duration-75 flex flex-col  font-inter
       [scrollbar-width:thin] 
@@ -38,7 +38,7 @@ export const ChatMain = () => {
       `}
     >
       <div
-        className={`flex   max-w-full m-auto flex-col flex-grow w-full justify-center   mx-auto px-4`}
+        className={`flex   max-w-4xl m-auto flex-col flex-grow w-full justify-center   mx-auto px-4`}
       >
         {!messages?.length ? (
           <header className="flex-none text-center mb-8">

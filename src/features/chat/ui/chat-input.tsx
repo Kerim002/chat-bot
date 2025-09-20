@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { usePromptMutation } from "../api/use-prompt-mutation";
 import { useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-import { ChatSettingsPopover } from "./chat-settings-popover";
+import { Button } from "@/shared/ui/button";
+import { ArrowUp } from "@/assets";
+import { useQueryParam } from "@/shared";
+import { tempReturner } from "@/shared/lib/temp-returner";
 
 type Props = {
   isMessageExist: boolean;
@@ -14,6 +16,7 @@ export const ChatInput = ({ isMessageExist }: Props) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [inputValue, setInputValue] = useState("");
   const { id: roomId } = useParams<{ id: string }>();
+  const { getQuery } = useQueryParam();
   const { t } = useTranslation();
   // Auto-resize the textarea
   useEffect(() => {
@@ -41,7 +44,11 @@ export const ChatInput = ({ isMessageExist }: Props) => {
   const handleSendMessage = () => {
     if (!isPending) {
       promptMutation(
-        { userPrompt: inputValue, roomId: roomId ? Number(roomId) : undefined },
+        {
+          userPrompt: inputValue,
+          roomId: roomId ? Number(roomId) : undefined,
+          temperature: tempReturner(getQuery("temp") || "normal"),
+        },
         { onSuccess: () => setInputValue("") }
       );
     }
@@ -58,17 +65,23 @@ export const ChatInput = ({ isMessageExist }: Props) => {
     <div
       className={`${
         isMessageExist ? "sticky bottom-0 pb-4" : ""
-      } bg-background mt-3 w-full pt-2`}
+      } bg-sidebar mt-3 w-full pt-2`}
     >
       {/* Gradient border wrapper, only active when textarea is focused */}
-      <div className="p-[2px]  max-w-3xl m-auto rounded-3xl bg-gray-300 dark:bg-neutral-700 focus-within:bg-gradient-to-l focus-within:from-blue-500 focus-within:to-violet-500 ease-in transition-colors duration-300">
-        <div className="flex items-end rounded-3xl bg-neutral-100 dark:bg-sidebar shadow-lg border border-transparent p-1">
-          <ChatSettingsPopover />
-
+      <div className="min-h-14 flex items-center justify-center p-[1px]  max-w-3xl m-auto rounded-[13px] bg-gray-300 dark:bg-neutral-700 focus-within:bg-neutral-800 ease-in transition-colors duration-300">
+        <div className="flex  w-full min-h-[54px]  items-end rounded-[12px] bg-neutral-100 dark:bg-sidebar shadow-lg border border-transparent">
+          {/* <ChatSettingsPopover /> */}
+          {/* <Button
+            variant="outline"
+            className="size-9 my-[9px] rounded-lg bg-sidebar ml-1"
+            size="icon"
+          >
+            <Paperclip />
+          </Button> */}
           <textarea
             ref={textareaRef}
             id="text-input"
-            className="flex-grow resize-none bg-transparent outline-none p-2 text-base placeholder-zinc-400 rounded-xl max-h-48 overflow-y-auto"
+            className="flex-grow  my-auto resize-none bg-transparent outline-none p-2 text-base placeholder-zinc-400 rounded-xl max-h-48 overflow-y-auto"
             placeholder={t("ask_question")}
             rows={1}
             value={inputValue}
@@ -76,7 +89,14 @@ export const ChatInput = ({ isMessageExist }: Props) => {
             onKeyDown={handleKeyDown}
           ></textarea>
 
-          <button
+          <Button
+            disabled={!inputValue}
+            className="rounded-lg mr-1 my-[9px]"
+            size="icon"
+          >
+            <ArrowUp />
+          </Button>
+          {/* <button
             id="send-button"
             className="ml-2 p-2 rounded-full main-bg  transition-colors duration-200 focus:outline-none"
             aria-label="Send message"
@@ -96,7 +116,7 @@ export const ChatInput = ({ isMessageExist }: Props) => {
                 d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
               />
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

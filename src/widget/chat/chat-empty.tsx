@@ -6,6 +6,8 @@ import { useEffect, useRef, useState, useMemo } from "react";
 import { Button } from "@/shared/ui/button";
 import { Pointer, Star, Check } from "lucide-react";
 import { usePromptMutation } from "@/features/chat/api/use-prompt-mutation";
+import { tempReturner } from "@/shared/lib/temp-returner";
+import { useQueryParam } from "@/shared";
 
 const staticTexts = [
   "Zähmet kodeksiniň maksady we wezipesi näme?",
@@ -41,11 +43,15 @@ const icons = [Pointer, Star, Check];
 
 export const ChatEmpty = () => {
   const { t } = useTranslation();
+  const { getQuery } = useQueryParam();
   const { isPending, promptMutation } = usePromptMutation();
   const randomTexts = useMemo(() => getRandomStaticTexts(staticTexts), []);
   const handleSendMessage = (inputValue: string) => {
     if (!isPending && inputValue.trim() !== "") {
-      promptMutation({ userPrompt: inputValue });
+      promptMutation({
+        userPrompt: inputValue,
+        temperature: tempReturner(getQuery("temp") || "normal"),
+      });
     }
   };
 
