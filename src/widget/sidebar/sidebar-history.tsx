@@ -20,7 +20,7 @@ export const SidebarHistory = () => {
   const rooms = data?.pages.flatMap((page) => page.items) ?? [];
   const { id } = useParams();
   const { t } = useTranslation();
-  const { open, toggleSidebar } = useSidebar();
+  const { open, toggleSidebar, isMobile } = useSidebar();
   const { search } = useLocation();
 
   if (!rooms.length) return null;
@@ -56,7 +56,7 @@ export const SidebarHistory = () => {
                   asChild
                 >
                   <Link
-                    onClick={toggleSidebar}
+                    onClick={isMobile ? toggleSidebar : undefined}
                     to={`/room/${item.id}${search}`}
                   >
                     <span>{item.title}</span>

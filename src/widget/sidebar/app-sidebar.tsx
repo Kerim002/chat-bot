@@ -23,7 +23,7 @@ export const AppSidebar = ({
 }: React.ComponentProps<typeof Sidebar>) => {
   const { t } = useTranslation();
   const { search } = useLocation();
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, isMobile } = useSidebar();
   return (
     <Sidebar className="bg-sidebar" collapsible="icon" {...props}>
       <SidebarHeader className="h-16">
@@ -34,7 +34,10 @@ export const AppSidebar = ({
           <SidebarGroupContent>
             <SidebarMenu className="">
               <SidebarMenuItem>
-                <Link onClick={toggleSidebar} to={`/${search}`}>
+                <Link
+                  onClick={isMobile ? toggleSidebar : undefined}
+                  to={`/${search}`}
+                >
                   <SidebarMenuButton className="" asChild>
                     <div>
                       <Edit className="size-5" />

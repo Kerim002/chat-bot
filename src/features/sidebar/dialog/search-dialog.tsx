@@ -21,7 +21,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export const SearchDialog = () => {
   const { t } = useTranslation();
-  const { toggleSidebar } = useSidebar();
+  const { toggleSidebar, isMobile } = useSidebar();
   const { getQuery, setQuery, deleteQuery } = useQueryParam();
   const searchDebounce = useDebounce(getQuery("search"), 300);
   const { search } = useLocation();
@@ -38,7 +38,9 @@ export const SearchDialog = () => {
 
   const handleClose = () => {
     navigate(`/${search}`);
-    toggleSidebar();
+    if (isMobile) {
+      toggleSidebar();
+    }
     closeRef.current?.click();
   };
 
