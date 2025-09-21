@@ -21,7 +21,7 @@ const dialogRoutes = [
 export const SettingsSidebar = ({ onSidebar, current }: Props) => {
   const { t } = useTranslation();
   return (
-    <div className="w-60 flex flex-col h-full gap-1">
+    <div className="sm:w-60 w-44 flex flex-col h-full gap-1">
       {dialogRoutes.map((item) => (
         <Button
           onClick={() => onSidebar(item.name)}

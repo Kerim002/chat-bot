@@ -36,7 +36,7 @@ export const SettingsDialog = () => {
             <X className="text-gray-500 dark:text-gray-200" />
           </DialogClose>
         </DialogHeader>
-        <div className="h-80 flex gap-5 pt-4">
+        <div className="h-80 flex gap-5 pt-4 ">
           <SettingsSidebar current={sidebar} onSidebar={onSidebar} />
           {sidebar === "settings" ? (
             <SettingsContent />

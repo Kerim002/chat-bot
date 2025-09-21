@@ -19,14 +19,14 @@ export const SettingsContent = () => {
     "(prefers-color-scheme: dark)"
   ).matches;
   return (
-    <div className="w-full h-full space-y-2">
+    <div className="w-full h-full space-y-2  overflow-auto">
       <div className="">
         <p>{t("theme")}</p>
-        <div className="grid grid-cols-3 gap-3 mt-2">
+        <div className="grid grid-cols-3 gap-3 mt-2 overflow-auto">
           <Button
             onClick={() => setTheme("light")}
             variant={theme === "light" ? "secondary" : "outline"}
-            className="col-span-1 flex h-24 items-center justify-center border rounded-xl flex-col text-gray-500 dark:text-gray-200 cursor-pointer"
+            className="md:col-span-1 col-span-3 flex h-24 items-center justify-center border rounded-xl flex-col text-gray-500 dark:text-gray-200 cursor-pointer"
           >
             <Sun className="size-6" />
             <p>{t("light")}</p>
@@ -34,7 +34,7 @@ export const SettingsContent = () => {
           <Button
             variant={theme === "dark" ? "secondary" : "outline"}
             onClick={() => setTheme("dark")}
-            className="col-span-1 flex h-24 items-center justify-center border rounded-xl flex-col text-gray-500 dark:text-gray-200 cursor-pointer"
+            className="md:col-span-1 col-span-3 flex h-24 items-center justify-center border rounded-xl flex-col text-gray-500 dark:text-gray-200 cursor-pointer"
           >
             <Moon className="size-6" />
             <p>{t("dark")}</p>
@@ -42,7 +42,7 @@ export const SettingsContent = () => {
           <Button
             onClick={() => setTheme(systemIsDark ? "dark" : "light")}
             variant="outline"
-            className="col-span-1 flex h-24 items-center justify-center border rounded-xl flex-col text-gray-500 dark:text-gray-200 cursor-pointer"
+            className="md:col-span-1 col-span-3 flex h-24 items-center justify-center border rounded-xl flex-col text-gray-500 dark:text-gray-200 cursor-pointer"
           >
             <Monitor className="size-6" />
             <p>{t("system")}</p>

@@ -8,6 +8,10 @@ import { Pointer, Star, Check } from "lucide-react";
 import { usePromptMutation } from "@/features/chat/api/use-prompt-mutation";
 import { tempReturner } from "@/shared/lib/temp-returner";
 import { useQueryParam } from "@/shared";
+import type { QualityKey } from "@/shared/constants/quality";
+import { MessageItem } from "@/features/chat/ui/message";
+import { Skeleton } from "@/shared/ui/skeleton";
+import { useChatStore } from "@/entities/room/hooks/use-chat-store";
 
 const staticTexts = [
   "Zähmet kodeksiniň maksady we wezipesi näme?",
@@ -44,54 +48,86 @@ const icons = [Pointer, Star, Check];
 export const ChatEmpty = () => {
   const { t } = useTranslation();
   const { getQuery } = useQueryParam();
+  const { oldText, setOldText } = useChatStore();
+  const [isLoading, setIsLoading] = useState(false);
+
   const { isPending, promptMutation } = usePromptMutation();
   const randomTexts = useMemo(() => getRandomStaticTexts(staticTexts), []);
   const handleSendMessage = (inputValue: string) => {
+    setIsLoading(true);
+    setOldText(inputValue);
     if (!isPending && inputValue.trim() !== "") {
+      const qualityParam = (getQuery("temp") as QualityKey) || "normal";
       promptMutation({
         userPrompt: inputValue,
-        temperature: tempReturner(getQuery("temp") || "normal"),
+        temperature: tempReturner(qualityParam).temp,
+        maxTokens: tempReturner(qualityParam).maxTokens,
+        topK: tempReturner(qualityParam).topK,
+        similarityThreshold: tempReturner(qualityParam).simlarityThreshold,
       });
     }
   };
 
   return (
-    <div className="w-full  h-[calc(100dvh-304px)] overflow-auto flex flex-col font-inter transition-all ease-out duration-75">
-      <div className="flex flex-col items-center justify-center flex-grow max-w-5xl mx-auto px-4">
-        {/* Başlık */}
-        <header className="mb-8 text-center">
-          <BlurText
-            text={t("home_title")}
-            delay={150}
-            animateBy="words"
-            direction="top"
-            className="text-2xl md:text-4xl font-semibold text-gray-500 dark:text-neutral-300"
-          />
-        </header>
+    <div
+      // className="w-full  h-[calc(100dvh-304px)] overflow-auto flex flex-col font-inter transition-all ease-out duration-75"
+      className={`w-full ${
+        isLoading ? "h-[calc(100dvh-64px)]" : "h-[calc(100dvh-304px)]"
+      }  overflow-auto flex flex-col font-inter transition-all ease-out duration-75`}
+    >
+      {isLoading ? (
+        <div
+          className={`flex max-w-4xl  pb-4 m-auto h-full flex-col flex-grow w-full justify-center mx-auto px-4`}
+        >
+          <div className="flex-grow overflow-y-auto transition-all ease-in duration-300 scrollbar-hide mb-4 space-y-4 md:p-4 p-0 rounded-lg">
+            <MessageItem
+              roomId={0}
+              createdAt="test"
+              prompt={oldText}
+              isStreaming={false}
+              id={0}
+              isUser={true}
+            />
+            <div className="">
+              <Skeleton className="sm:w-lg w-full h-10 rounded-xl" />
+            </div>
+          </div>
+          <ChatInput isMessageExist={false} />
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center flex-grow max-w-5xl mx-auto px-4">
+          <header className="mb-8 text-center">
+            <BlurText
+              text={t("home_title")}
+              delay={150}
+              animateBy="words"
+              direction="top"
+              className="text-2xl md:text-4xl font-semibold text-gray-500 dark:text-neutral-300"
+            />
+          </header>
 
-        {/* Chat input */}
-        <ChatInput isMessageExist={false} onSend={handleSendMessage} />
+          <ChatInput setIsLoading={setIsLoading} isMessageExist={false} />
 
-        {/* Önerilen sorular */}
-        <div className="w-full flex justify-center mt-6">
-          <div className="flex flex-wrap gap-3 max-w-3xl w-full justify-center">
-            {randomTexts.map((item, index) => {
-              const IconComponent = icons[index % icons.length];
-              return (
-                <Button
-                  key={item}
-                  variant="secondary"
-                  className="flex items-center md:text-base break-words text-xs gap-2 px-4 py-2  hover:bg-blue-100 dark:hover:bg-neutral-700 transition-colors rounded-xl active:scale-95"
-                  onClick={() => handleSendMessage(item)}
-                >
-                  <IconComponent className="w-4 h-4" />
-                  <span>{item}</span>
-                </Button>
-              );
-            })}
+          <div className="w-full flex justify-center mt-6">
+            <div className="flex flex-wrap gap-3 max-w-3xl w-full justify-center">
+              {randomTexts.map((item, index) => {
+                const IconComponent = icons[index % icons.length];
+                return (
+                  <Button
+                    key={item}
+                    variant="secondary"
+                    className="flex truncate sm:w-fit w-80 items-center md:text-base break-words text-xs gap-2 px-4 py-2  hover:bg-blue-100 dark:hover:bg-neutral-700 transition-colors rounded-xl active:scale-95"
+                    onClick={() => handleSendMessage(item)}
+                  >
+                    <IconComponent className="w-4 h-4" />
+                    <span className="truncate">{item}</span>
+                  </Button>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

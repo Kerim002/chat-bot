@@ -13,7 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/shared/ui/dialog";
-import { SidebarMenuButton } from "@/shared/ui/sidebar";
+import { SidebarMenuButton, useSidebar } from "@/shared/ui/sidebar";
 import { Edit, Search, X } from "lucide-react";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,6 +21,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export const SearchDialog = () => {
   const { t } = useTranslation();
+  const { toggleSidebar } = useSidebar();
   const { getQuery, setQuery, deleteQuery } = useQueryParam();
   const searchDebounce = useDebounce(getQuery("search"), 300);
   const { search } = useLocation();
@@ -37,6 +38,7 @@ export const SearchDialog = () => {
 
   const handleClose = () => {
     navigate(`/${search}`);
+    toggleSidebar();
     closeRef.current?.click();
   };
 
@@ -77,7 +79,7 @@ export const SearchDialog = () => {
               {getQuery("search") ? (
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="ghost"
                   onClick={() => setQuery([{ key: "search", value: "" }])}
                 >
                   <X className="text-gray-500" />
@@ -105,7 +107,9 @@ export const SearchDialog = () => {
                   variant="ghost"
                   className="w-full gap-2 font-normal justify-start"
                 >
-                  <span className="truncate max-w-[420px]">{item.title}</span>
+                  <span className="truncate md:max-w-[420px] max-w-64">
+                    {item.title}
+                  </span>
                 </Button>
               ))}
 

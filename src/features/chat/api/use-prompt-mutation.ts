@@ -10,9 +10,34 @@ export const usePromptMutation = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { search } = useLocation();
-  const { mutate: promptMutation, isPending } = useMutation({
+  const {
+    mutate: promptMutation,
+    isPending,
+    isSuccess,
+    isError,
+  } = useMutation({
     mutationFn: messagesApi.postMessage,
-    onSuccess: (data, { roomId, userPrompt }) => {
+    onMutate: ({ userPrompt, roomId }) => {
+      if (roomId) {
+        queryClient.setQueryData(
+          messagesApi.messageQueries.messages(roomId).queryKey,
+          (old: any) => {
+            if (!old) return [];
+            return [
+              ...old,
+              {
+                id: Date.now(),
+                createdAt: new Date().toISOString(),
+                prompt: userPrompt,
+                isUser: true,
+                roomId: roomId,
+              },
+            ];
+          }
+        );
+      }
+    },
+    onSuccess: (data, { roomId }) => {
       // if API created a new room → update rooms cache
       if (data.chatroomId !== roomId) {
         queryClient.setQueryData<InfiniteData<any>>(
@@ -42,7 +67,9 @@ export const usePromptMutation = () => {
           }
         );
 
-        navigate(`/room/${data.chatroomId}${search}`);
+        setTimeout(() => {
+          navigate(`/room/${data.chatroomId}${search}`);
+        }, 100);
       } else {
         // if posting inside existing room → update messages cache
         queryClient.setQueryData(
@@ -51,13 +78,13 @@ export const usePromptMutation = () => {
             if (!old) return [];
             return [
               ...old,
-              {
-                id: Date.now(),
-                createdAt: new Date().toISOString(),
-                prompt: userPrompt,
-                isUser: true,
-                roomId: data.chatroomId,
-              },
+              // {
+              //   id: Date.now(),
+              //   createdAt: new Date().toISOString(),
+              //   prompt: userPrompt,
+              //   isUser: true,
+              //   roomId: data.chatroomId,
+              // },
               {
                 id: Date.now() + 1,
                 createdAt: new Date().toISOString(),
@@ -70,7 +97,8 @@ export const usePromptMutation = () => {
         );
       }
     },
+    gcTime: 5000,
   });
 
-  return { promptMutation, isPending };
+  return { promptMutation, isPending, isSuccess, isError };
 };

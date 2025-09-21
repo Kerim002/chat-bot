@@ -8,7 +8,7 @@ export const SettingsProfile = () => {
 
   return (
     <div className="w-full h-full">
-      <div className="w-full flex items-center justify-between">
+      <div className="w-full flex sm:items-center sm:flex-row flex-col  justify-between">
         <p>{t("username")}</p>
         <p className="text-gray-500 font-light">{data?.name}</p>
       </div>

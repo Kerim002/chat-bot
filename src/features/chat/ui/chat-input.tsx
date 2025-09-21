@@ -7,14 +7,16 @@ import { ArrowUp } from "@/assets";
 import { useQueryParam } from "@/shared";
 import { tempReturner } from "@/shared/lib/temp-returner";
 import type { QualityKey } from "@/shared/constants/quality";
+import { useChatStore } from "@/entities/room/hooks/use-chat-store";
 
 type Props = {
   isMessageExist: boolean;
-  onSend?: (inputValue: string) => void; // <-- onSend desteği eklendi
+  setIsLoading?: (val: boolean) => void;
 };
 
-export const ChatInput = ({ isMessageExist }: Props) => {
+export const ChatInput = ({ isMessageExist, setIsLoading }: Props) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const { setOldText } = useChatStore();
   const [inputValue, setInputValue] = useState("");
   const { id: roomId } = useParams<{ id: string }>();
   const { getQuery } = useQueryParam();
@@ -43,6 +45,11 @@ export const ChatInput = ({ isMessageExist }: Props) => {
   }, [inputValue]);
   const { isPending, promptMutation } = usePromptMutation();
   const handleSendMessage = () => {
+    if (setIsLoading) {
+      setOldText(inputValue);
+      setInputValue("");
+      setIsLoading(true);
+    }
     if (!isPending) {
       const qualityParam = (getQuery("temp") as QualityKey) || "normal";
       promptMutation(
@@ -54,7 +61,15 @@ export const ChatInput = ({ isMessageExist }: Props) => {
           topK: tempReturner(qualityParam).topK,
           similarityThreshold: tempReturner(qualityParam).simlarityThreshold,
         },
-        { onSuccess: () => setInputValue("") }
+        {
+          onSuccess: () => {
+            setInputValue("");
+            setOldText("");
+            if (setIsLoading && roomId) {
+              setIsLoading(false);
+            }
+          },
+        }
       );
     }
   };
@@ -96,6 +111,7 @@ export const ChatInput = ({ isMessageExist }: Props) => {
 
           <Button
             disabled={!inputValue}
+            onClick={handleSendMessage}
             className="rounded-lg mr-1 my-[9px]"
             size="icon"
           >

@@ -7,6 +7,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/shared/ui/sidebar";
 import React from "react";
 import { TopSidebar } from "./top-sidebar";
@@ -22,6 +23,7 @@ export const AppSidebar = ({
 }: React.ComponentProps<typeof Sidebar>) => {
   const { t } = useTranslation();
   const { search } = useLocation();
+  const { toggleSidebar } = useSidebar();
   return (
     <Sidebar className="bg-sidebar" collapsible="icon" {...props}>
       <SidebarHeader className="h-16">
@@ -32,7 +34,7 @@ export const AppSidebar = ({
           <SidebarGroupContent>
             <SidebarMenu className="">
               <SidebarMenuItem>
-                <Link to={`/${search}`}>
+                <Link onClick={toggleSidebar} to={`/${search}`}>
                   <SidebarMenuButton className="" asChild>
                     <div>
                       <Edit className="size-5" />
