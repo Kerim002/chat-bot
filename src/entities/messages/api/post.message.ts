@@ -6,11 +6,11 @@ import type { PromptDto } from "./dto/prompt.dto";
 
 export const postMessage = async (data: MessageParams) => {
   const json: MessageQuery = {
-    max_tokens: 500,
+    max_tokens: data.maxTokens || 3000,
     room_id: data.roomId ? Number(data.roomId) : undefined,
-    similarity_threshold: 0.3,
-    temperature: data.temperature || 0.5,
-    top_k: 3,
+    similarity_threshold: data.similarityThreshold || 0.5,
+    temperature: data.temperature || 0.7,
+    top_k: data.topK || 5,
     user_prompt: data.userPrompt,
   };
   const response = await jsonApiInstance<PromptDto>(`${ROOM_ENDPOINT}-query`, {

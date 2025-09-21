@@ -11,4 +11,7 @@ export type MessageParams = {
   roomId?: number;
   userPrompt: string;
   temperature?: number;
+  maxTokens?: number;
+  topK?: number;
+  similarityThreshold?: number;
 };

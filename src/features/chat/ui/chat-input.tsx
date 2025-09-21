@@ -6,6 +6,7 @@ import { Button } from "@/shared/ui/button";
 import { ArrowUp } from "@/assets";
 import { useQueryParam } from "@/shared";
 import { tempReturner } from "@/shared/lib/temp-returner";
+import type { QualityKey } from "@/shared/constants/quality";
 
 type Props = {
   isMessageExist: boolean;
@@ -43,11 +44,15 @@ export const ChatInput = ({ isMessageExist }: Props) => {
   const { isPending, promptMutation } = usePromptMutation();
   const handleSendMessage = () => {
     if (!isPending) {
+      const qualityParam = (getQuery("temp") as QualityKey) || "normal";
       promptMutation(
         {
           userPrompt: inputValue,
           roomId: roomId ? Number(roomId) : undefined,
-          temperature: tempReturner(getQuery("temp") || "normal"),
+          temperature: tempReturner(qualityParam).temp,
+          maxTokens: tempReturner(qualityParam).maxTokens,
+          topK: tempReturner(qualityParam).topK,
+          similarityThreshold: tempReturner(qualityParam).simlarityThreshold,
         },
         { onSuccess: () => setInputValue("") }
       );
