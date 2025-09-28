@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/shared/ui/sidebar";
 import { LogOut, Settings } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -27,15 +28,22 @@ export const SidebarFoot = () => {
   const { t } = useTranslation();
   const { setQuery } = useQueryParam();
   const { data } = useQuery(authQueries.protected());
+  const {open, } = useSidebar()
   return (
     <SidebarFooter>
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton className="select-none">
+              <SidebarMenuButton className="select-none  p-0 group-data-[collapsible=icon]:p-0!">
+                <div className={`${open ? "" : "size-7 flex items-center justify-center"}`}>
+
                 <div className="bg-teal-500 size-6 rounded-full"></div>
-                <h4>{data?.name}</h4>
+                </div>
+                {
+                  open ? 
+                  <h4>{data?.name}</h4> : null
+                }
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="top" className="w-60">

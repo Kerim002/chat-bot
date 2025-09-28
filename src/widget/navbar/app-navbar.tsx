@@ -1,3 +1,6 @@
+import { BulbOutline } from "@/assets/svgs/bulb-outline";
+import { LightOutline } from "@/assets/svgs/light-outline";
+import { LoadingRightOutline } from "@/assets/svgs/loading-right-outline";
 import { authApi } from "@/entities/auth";
 import { useQueryParam } from "@/shared";
 import {
@@ -8,7 +11,6 @@ import {
 } from "@/shared/ui/select";
 import { SidebarTrigger } from "@/shared/ui/sidebar";
 import { useQuery } from "@tanstack/react-query";
-import { Lightbulb, RotateCw, Zap } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 export const AppNavbar = () => {
@@ -29,15 +31,15 @@ export const AppNavbar = () => {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="fast">
-            <Zap />
+            <LightOutline className="size-6 " />
             {t("fast")}
           </SelectItem>
           <SelectItem value="normal">
-            <RotateCw />
+            <LoadingRightOutline className="size-6" />
             {t("normal")}
           </SelectItem>
           <SelectItem value="clever">
-            <Lightbulb />
+            <BulbOutline className="size-6" />
             {t("clever")}
           </SelectItem>
         </SelectContent>
