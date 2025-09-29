@@ -14,7 +14,7 @@ export const TopSidebar = () => {
       open ? "size-7" : "w-fit hidden group-hover/sidebar:inline-flex"
     }`}
   >
-    <Brain onClick={() => toggleSidebar()} className="size-4" />
+    <Brain onClick={() => toggleSidebar()} className="size-6" />
   </div>
 
   <SidebarTrigger
